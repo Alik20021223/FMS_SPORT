@@ -4,9 +4,9 @@ import { Participant, TableTourney } from '@/components/core/TableTourneyWatch/T
 
 
 
-type TAddModal = {
-    data?: any;
-};
+// type TAddModal = {
+//     data?: any;
+// };
 
 const participants: Participant[] = [
     { id: 1, name: 'Иванов' },
@@ -15,13 +15,8 @@ const participants: Participant[] = [
     { id: 4, name: 'Кузьмин' },
 ];
 
-{/* <Button className='bg-prime text-white hover:bg-prime-800'>
-                Вывести на экран
-            </Button>
-            <TableTourney participants={participants} /> */}
 
-
-const WatchTourney: FC<TAddModal> = ({ data }) => {
+const WatchTourney = () => {
     return (
         <div className='w-[95%] rounded-lg bg-[#EEEEEE] h-full'>
             <div className='pt-[20px] pl-[4%] pr-[10%]'>
