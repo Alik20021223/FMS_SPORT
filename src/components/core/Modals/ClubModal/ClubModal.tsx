@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Image from "next/image";
 
-export default function ClubModal({ onClose }) {
+
+type ClubModalProps = {
+  onClose: () => void;
+};
+
+export default function ClubModal({ onClose }: ClubModalProps) {
   const [modalOpen, setModalOpen] = useState(true);
   const club = {
     name: "Кветунь",

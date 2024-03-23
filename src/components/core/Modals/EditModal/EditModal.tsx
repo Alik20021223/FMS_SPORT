@@ -4,9 +4,13 @@ import Modal from "../Modal/Modal";
 import Image from "next/image";
 import { AppInput } from "../../Input/AppInput";
 import { AppButton } from "../../Button/AppButton";
+
+
 type TEditModal = {
   onClose: () => void;
 };
+
+
 export default function EditModal({ onClose }: TEditModal) {
   const [gender, setGender] = useState("");
   const [modalOpen, setModalOpen] = useState(true);

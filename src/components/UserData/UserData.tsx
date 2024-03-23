@@ -91,16 +91,16 @@ export default function UserData(props: any) {
         textStyle="text-[#D42828]"
       />
       {isEditModalOpen && (
-        <EditModal onClose={() => setIsEditModalOpen(!isEditModalOpen)} />
+        <EditModal onClose={() => setIsEditModalOpen(false)} />
       )}
       {isCityModalOpen && (
-        <CityModal onClose={() => setIsCityModal(!isCityModalOpen)} />
+        <CityModal onClose={() => setIsCityModal(false)} />
       )}
       {isCoachModalOpen && (
-        <CoachModal onClose={() => setIsCoachModalOpen(!isCoachModalOpen)} />
+        <CoachModal onClose={() => setIsCoachModalOpen(false)} />
       )}
       {isClubModalOpen && (
-        <ClubModal onClose={() => setIsClubModalOpen(!isClubModalOpen)} />
+        <ClubModal onClose={() => setIsClubModalOpen(false)} />
       )}
     </>
   );
