@@ -41,7 +41,21 @@ export default function Login() {
             }).then((res: any) => {
                 axios.post('/api/login', { email: email, password: password }).then((res: any) => {
                     localStorage.setItem(btoa('token'), res.data.token);
-                    router.push('/profile')
+                    
+                    axios.post('/api/anthropometry', {
+                        "weight": 0,
+                        "height": 0,
+                        "shoes": 0,
+                        "helmet": 0,
+                        "head": 0,
+                        "armor": 0
+                    }, {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+                        }
+                    }).then((res: any) => {
+                        router.push('/profile')
+                    });
                 });
             });
             setClick(1)
