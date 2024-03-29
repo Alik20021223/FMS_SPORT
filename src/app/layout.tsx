@@ -1,6 +1,6 @@
 import "./globals.css";
 import StoreProvider from "../redux/StoreProvider";
-
+import NextTopLoader from 'nextjs-toploader';
 
 
 export default function RootLayout({
@@ -11,7 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        
         <StoreProvider>
+          <NextTopLoader />
           {children}
         </StoreProvider>
       </body>

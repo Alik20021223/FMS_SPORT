@@ -1,5 +1,6 @@
 import { TheSidebar } from "@/components/TheSidebar/TheSidebar";
 import type { Metadata } from "next";
+
 import { Inter } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -21,6 +22,7 @@ export default function RootLayout({
     <div className="flex">
       <TheSidebar />
       <main className="ml-12 w-full bg-white flex-1 overflow-y-auto min-h h-full relative pt-16">
+      
         {children}
       </main>
     </div>
