@@ -52,7 +52,7 @@ export default function Login() {
 
     return (
         <section className="loginSection">
-            <Link href="/loginRegister/login" className="absolute top-5 right-16 text-sm text-[#155783] font-medium">Уже есть аккаунт?
+            <Link href="/login" className="absolute top-5 right-16 text-sm text-[#155783] font-medium">Уже есть аккаунт?
                 <span className="font-bold"> Войти.</span>
             </Link>
             <div className="pr-[50px] pl-[44px] flex gap-[50px] pb-6 pt-[80px]">
