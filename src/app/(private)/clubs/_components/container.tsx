@@ -29,11 +29,11 @@ export default function Container() {
     };
 
     const ageFilter = [
-        {id: 1, value: '12-14'},
-        {id: 2, value: '12-14'},
-        {id: 3, value: '12-14'},
-        {id: 4, value: '12-14'},
-        {id: 5, value: '12-14'},
+        { id: 1, value: '12-14' },
+        { id: 2, value: '12-14' },
+        { id: 3, value: '12-14' },
+        { id: 4, value: '12-14' },
+        { id: 5, value: '12-14' },
     ]
 
 
@@ -88,6 +88,45 @@ export default function Container() {
         },
     ]
 
+    const LeagueFilter = [
+        {
+            id: 1,
+            txt: 'A',
+        },
+        {
+            id: 2,
+            txt: 'B',
+        },
+        {
+            id: 3,
+            txt: 'C',
+        },
+        {
+            id: 4,
+            txt: 'D',
+        },
+        {
+            id: 5,
+            txt: 'E',
+        },
+        {
+            id: 6,
+            txt: 'F',
+        },
+        {
+            id: 7,
+            txt: 'G',
+        },
+        {
+            id: 8,
+            txt: 'H',
+        },
+        {
+            id: 9,
+            txt: 'I',
+        },
+    ]
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
     }
@@ -120,37 +159,20 @@ export default function Container() {
                             </label>
                         </div>
                     </div>
-                    <div className="w-[80%] mt-4">
-                        <h3>Лига</h3>
-                        <div className="w-full mt-2 justify-between flex">
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">a</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">b</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">c</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">d</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">e</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">f</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">g</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">h</Checkbox>
-                            </div>
-                            <div>
-                                <Checkbox classNames={{ wrapper: ["w-[40px]", "h-[40px]"], icon: ["h-6"] }} size="lg">i</Checkbox>
-                            </div>
-                        </div>
+                    <div className="w-[30%] mt-4">
+                        <label aria-label="Town">
+                            <p className="mb-2">Лига</p>
+                            <Select
+                                placeholder="Лиги"
+                                classNames={btnClass}
+                            >
+                                {LeagueFilter.map((item) => (
+                                    <SelectItem key={item.id} value={item.txt}>
+                                        {item.txt}
+                                    </SelectItem>
+                                ))}
+                            </Select>
+                        </label>
                     </div>
                     <div className="w-[60%] mt-4">
                         <h3>Возраст</h3>
