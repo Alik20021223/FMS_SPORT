@@ -164,6 +164,7 @@ export default function Container() {
                             <p className="mb-2">Лига</p>
                             <Select
                                 placeholder="Лиги"
+                                selectionMode="multiple"
                                 classNames={btnClass}
                             >
                                 {LeagueFilter.map((item) => (
