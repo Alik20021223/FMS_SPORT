@@ -24,7 +24,7 @@ export default function Login() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        axios.post( 'http://45.84.227.13/api/login', {email: login, password: password}).then((res: any) => {
+        axios.post( '/api/login', {email: login, password: password}).then((res: any) => {
             localStorage.setItem(btoa('token'), res.data.token);
             router.push('/profile')
         });

@@ -31,7 +31,7 @@ export default function Login() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (password == rePassword) {
-            axios.post('http://45.84.227.13/api/register', {
+            axios.post('/api/register', {
                 email: email,
                 name: name,
                 surname: surname,
@@ -39,7 +39,7 @@ export default function Login() {
                 patronymic: patronymic,
                 phone: phone,
             }).then((res: any) => {
-                axios.post('http://45.84.227.13/api/login', { email: email, password: password }).then((res: any) => {
+                axios.post('/api/login', { email: email, password: password }).then((res: any) => {
                     localStorage.setItem(btoa('token'), res.data.token);
                     router.push('/profile')
                 });

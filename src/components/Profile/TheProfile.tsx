@@ -23,7 +23,7 @@ export default function TheProfile({ data, activeTab }: TUserInfoProps) {
   const [user, setUser] = useState<any>({})
 
   useEffect(() => {
-    axios.get('http://45.84.227.13/api/me', {
+    axios.get('/api/me', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
       }
