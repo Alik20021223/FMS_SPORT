@@ -2,9 +2,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Fsmb } from "../login/fsmb";
-import { Checkbox } from "@nextui-org/react";
+
+import 'react-phone-input-2/lib/material.css'
+
 import axios from "axios";
 import { useRouter } from 'next/navigation';
+import PhoneInput from "react-phone-input-2";
 
 interface FormData {
     login: string;
@@ -28,6 +31,11 @@ export default function Login() {
         }
     }, [])
 
+    const handleInputPhone = (e: React.FormEvent<HTMLInputElement>, value: string) => {
+        e.preventDefault();
+        setPhone(value)
+    }
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (password == rePassword) {
@@ -41,7 +49,7 @@ export default function Login() {
             }).then((res: any) => {
                 axios.post('/api/login', { email: email, password: password }).then((res: any) => {
                     localStorage.setItem(btoa('token'), res.data.token);
-                    
+
                     axios.post('/api/anthropometry', {
                         "weight": 0,
                         "height": 0,
@@ -113,18 +121,21 @@ export default function Login() {
                             />
                             <input
                                 type="password"
-                                className={`focus-visible:border-none border-b-2 text-[15px] mb-[32px]`}
+                                className={`focus-visible:border-none border-b-2 text-[15px] mb-[15px]`}
                                 placeholder="Повторите пароль"
                                 value={rePassword}
                                 onChange={(e) => setRePassword(e.target.value)}
                             />
-                            <input
-                                type="text"
-                                className={`focus-visible:border-none border-b-2 text-[15px] mb-[32px]`}
-                                placeholder="Номер мобильного телефона"
+
+                            <PhoneInput
+                                containerClass="w-full mb-[32px]"
+
+                                country={'ru'}
                                 value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                onChange={phone => setPhone(phone)}
+                                inputProps={{ required: true }}
                             />
+
 
                             <button className="bg-[#155783] py-[11px] uppercase rounded-full font-semibold text-white lowercase">ЗАРЕГИСТРИРОВАТЬСЯ</button>
                             {isClick ? (
