@@ -31,7 +31,7 @@ export default function Login() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (password == rePassword) {
-            axios.post('http://localhost:3020/api/register', {
+            axios.post('http://45.84.227.13/api/register', {
                 email: email,
                 name: name,
                 surname: surname,
@@ -39,23 +39,9 @@ export default function Login() {
                 patronymic: patronymic,
                 phone: phone,
             }).then((res: any) => {
-                axios.post('http://localhost:3020/api/login', { email: email, password: password }).then((res: any) => {
+                axios.post('http://45.84.227.13/api/login', { email: email, password: password }).then((res: any) => {
                     localStorage.setItem(btoa('token'), res.data.token);
-                    
-                    axios.post('http://localhost:3020/api/anthropometry', {
-                        "weight": 0,
-                        "height": 0,
-                        "shoes": 0,
-                        "helmet": 0,
-                        "head": 0,
-                        "armor": 0
-                    }, {
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
-                        }
-                    }).then((res: any) => {
-                        router.push('/profile')
-                    });
+                    router.push('/profile')
                 });
             });
             setClick(1)
