@@ -39,7 +39,7 @@ export default function TheProfile({ data, activeTab }: TUserInfoProps) {
   const renderContent = () => {
     switch (active) {
       case "personal":
-        return <UserData data={data} />;
+        return <UserData data={user} />;
       case "anthropometry":
         return <AnthropometryData data={user} />;
       case "family":
