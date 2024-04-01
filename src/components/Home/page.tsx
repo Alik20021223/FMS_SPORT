@@ -5,7 +5,7 @@ import { useEffect } from "react";
 export default function Home() {
     const router = useRouter();
     useEffect(()=> {
-        if(localStorage.getItem(btoa('token'))) console.log('Hello');
+        if(localStorage.getItem(btoa('token'))) router.push('/profile');
         else router.push('/login')
     }, [])
     
