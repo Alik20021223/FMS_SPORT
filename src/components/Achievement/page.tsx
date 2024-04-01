@@ -4,8 +4,9 @@ import Image from "next/image";
 import EditModal from "../core/Modals/EditModal/EditModal";
 import { AchAppType, AchievementCom } from '../core/AchievementCom/AchievementCom';
 import { TournamentCom, TourAppType } from '../core/AchTourCom/Tournament'
+import { PersonalState } from '@/app/interfaces/Person';
 
-const data: AchAppType[] = [
+const dataAch: AchAppType[] = [
     {
         id: 1,
         name: 'Щит и меч',
@@ -38,8 +39,10 @@ const dataTour: TourAppType[] = [
         date: '14.01.2022',
     },
 ]
-
-const AchievementApp = (props: any) => {
+type TUserInfoProps = {
+    data: PersonalState
+}
+const AchievementApp = ({ data }: TUserInfoProps) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
     return (
@@ -47,18 +50,18 @@ const AchievementApp = (props: any) => {
             <div className='flex flex-col'>
                 <ProfileBlock className="flex ">
                     <Image
-                        src={"/static/" + props?.data?.photo}
+                        src={"/static/" + data.photo}
                         width={90}
                         height={90}
                         className="rounded-full"
                         alt="profile_photo"
                     />
                     <div className="ml-10">
-                        <p className="text-base text-dark font-medium">{props?.data?.email}</p>
+                        <p className="text-base text-dark font-medium">{data.email}</p>
                         <p className="text-base text-dark font-medium">
-                            {props?.data?.surname} {props?.data?.name} {props?.data?.patronymic}
+                            {data.surname} {data.name} {data.patronymic}
                         </p>
-                        <p className="text-base text-dark font-medium">{props?.data?.birth ? new Date(props?.data?.birth).toLocaleDateString() : 'День рождение не указано!'}</p>
+                        <p className="text-base text-dark font-medium">{data.birth ? new Date(data.birth).toLocaleDateString() : 'День рождение не указано!'}</p>
                     </div>
                     <Image
                         src={"/assets/img/iconPers/edit.svg"}
@@ -73,7 +76,7 @@ const AchievementApp = (props: any) => {
                 {isEditModalOpen && (
                     <EditModal onClose={() => setIsEditModalOpen(!isEditModalOpen)} />
                 )}
-                <AchievementCom data={data} />
+                <AchievementCom data={dataAch} />
                 <div className='mt-10'>
                     <TournamentCom data={dataTour} />
                 </div>
