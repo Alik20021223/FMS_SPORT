@@ -39,7 +39,7 @@ const dataTour: TourAppType[] = [
     },
 ]
 
-const AchievementApp = () => {
+const AchievementApp = (props: any) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
     return (
@@ -47,18 +47,18 @@ const AchievementApp = () => {
             <div className='flex flex-col'>
                 <ProfileBlock className="flex ">
                     <Image
-                        src={"/assets/img/user-avatar.png"}
+                        src={"/static/" + props?.data?.photo}
                         width={90}
                         height={90}
                         className="rounded-full"
                         alt="profile_photo"
                     />
                     <div className="ml-10">
-                        <p className="text-base text-dark font-medium">Ivan Ivanov</p>
+                        <p className="text-base text-dark font-medium">{props?.data?.email}</p>
                         <p className="text-base text-dark font-medium">
-                            Иванов Иван Иванович
+                            {props?.data?.surname} {props?.data?.name} {props?.data?.patronymic}
                         </p>
-                        <p className="text-base text-dark font-medium">12.04.1995</p>
+                        <p className="text-base text-dark font-medium">{props?.data?.birth ? new Date(props?.data?.birth).toLocaleDateString() : 'День рождение не указано!'}</p>
                     </div>
                     <Image
                         src={"/assets/img/iconPers/edit.svg"}

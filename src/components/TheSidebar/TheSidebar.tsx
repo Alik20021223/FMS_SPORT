@@ -2,21 +2,12 @@
 import Image from "next/image"
 import { TUserInfoData, UserInfo } from "./UserInfo"
 import Link from "next/link"
-
-
-
-
-
-
-const dataUser: TUserInfoData = {
-  fullname: 'Иванов Иван',
-  id: 'ID 000000',
-  balanse: 153,
-}
+import { useAppSelector } from "@/redux/hooks"
+import { PersonalState } from "@/app/interfaces/Person"
 
 export const TheSidebar = () => {
 
-
+  const user: PersonalState = useAppSelector(state => state.personal)
 
   return (
     <>
@@ -35,7 +26,7 @@ export const TheSidebar = () => {
             МЕЧЕВОГО БОЯ
           </p>
         </Link>
-        <UserInfo data={dataUser} />
+        <UserInfo data={user} />
       </nav>
 
     </>

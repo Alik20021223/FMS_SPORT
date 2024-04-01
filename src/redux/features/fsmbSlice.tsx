@@ -1,37 +1,45 @@
 'use client'
 
+import { PersonalState } from "@/app/interfaces/Person"
 import { createSlice } from "@reduxjs/toolkit"
 
-export interface PersonalState {
-    id: number,
-    name: string,
-    surname: string,
-    secondName: string,
-    male: string,
-    dateBirth: Date,
-    numberPhone: number,
-    email: string,
-}
-
 const initialState: PersonalState = {
-    id: 1,
-    name: 'Иван',
-    surname: 'Иванов',
-    secondName: 'Иванович',
-    male: 'man',
-    dateBirth: new Date('1995-12-04'),
-    numberPhone: 992924440521,
-    email: 'alik20021223@mail.ru'
+    id: 0,
+    photo: '',
+    age: 0,
+    name: '',
+    surname: '',
+    patronymic: '',
+    gender: '',
+    birth: new Date(),
+    phone: '',
+    email: '',
+    balance: 0,
+    family: [],
+    anthropometry: undefined
 }
 
 export const fsmb = createSlice({
     name: 'fsmb',
     initialState,
     reducers: {
-        // increment: (state) => { state.value++ },
-        // decrement: (state) => { state.value-- },
+        setUser: (state, action) => {
+            state.id = action.payload.id
+            state.photo = action.payload.photo
+            state.name = action.payload.name
+            state.surname = action.payload.surname
+            state.patronymic = action.payload.patronymic
+            state.gender = action.payload.gender
+            state.phone = action.payload.phone
+            state.email = action.payload.email
+            state.birth = action.payload.birth
+            state.balance = action.payload.balance
+            state.family = action.payload.family
+            state.anthropometry = action.payload.anthropometry
+        }
     }
 })
 
-export const {} = fsmb.actions
+export const {setUser} = fsmb.actions
+
 export default fsmb.reducer

@@ -14,12 +14,12 @@ type TAppInfo = {
 
 export default function AnthropometryData(props: any) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  
+
   return (
     <>
       <ProfileBlock className="flex ">
         <Image
-          src={"/assets/img/user-avatar.png"}
+          src={"/static/" + props?.data?.photo}
           width={90}
           height={90}
           className="rounded-full"
@@ -30,7 +30,7 @@ export default function AnthropometryData(props: any) {
           <p className="text-base text-dark font-medium">
             {props?.data?.surname} {props?.data?.name} {props?.data?.patronymic}
           </p>
-          <p className="text-base text-dark font-medium">{new Date(props?.data?.createdAt).toLocaleDateString()}</p>
+          <p className="text-base text-dark font-medium">{props?.data?.birth ? new Date(props?.data?.birth).toLocaleDateString() : 'День рождение не указано!'}</p>
         </div>
         <Image
           src={"/assets/img/iconPers/edit.svg"}
@@ -56,7 +56,7 @@ export default function AnthropometryData(props: any) {
         img={"/assets/img/iconPers/age.svg"}
         value={"Полных лет"}
         label={"Возраст"}
-        rightValue={new Date().getFullYear() - new Date(props?.data?.createdAt).getFullYear()}
+        rightValue={props?.data?.age ? props?.data?.age : 0}
         isEditable={true}
       />
       <BlockArrow

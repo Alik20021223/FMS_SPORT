@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AppButton } from '@/components/core/Button/AppButton';
 import { useRouter } from 'next/navigation';
+import { PersonalState } from '@/app/interfaces/Person';
 
 export type TUserInfoData = {
   fullname: string;
@@ -11,7 +12,7 @@ export type TUserInfoData = {
 }
 
 type TUserInfoProps = {
-  data: TUserInfoData
+  data: PersonalState
 }
 
 const userMenu = [
@@ -45,18 +46,18 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
     <div >
       <div className="flex flex-col gap-4">
         <Image
-          src="/assets/img/user-avatar.png"
+          src={"/static/" + data.photo}
           alt="avatar"
           width={70}
           height={70}
           className="object-cover rounded-full border-2 border-prime"
         />
         <ul className="mb-10 flex flex-col gap-4 text-dark">
-          <li>{data.fullname}</li>
-          <li>{data.id}</li>
+          <li>{data.surname} {data.name} {data.patronymic}</li>
+          <li>ID{Intl.NumberFormat('ru-RU', {maximumSignificantDigits: 6}).format(data.id,)}</li>
           <li className="flex items-center">
             <span className="mr-4">Баланс</span>
-            <span className="mr-8 text-gray-500">{data.balanse} руб.</span>
+            <span className="mr-8 text-gray-500">{data.balance} руб.</span>
             <AppButton onClick={redirectToPay}>
               Пополнить баланс
             </AppButton>

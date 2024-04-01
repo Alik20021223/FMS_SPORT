@@ -19,14 +19,11 @@ export default function UserData(props: any) {
 
   const personal = useSelector((state: RootState) => state.personal)
 
-
-  const datePersonal = `${('0' + personal.dateBirth.getDate()).slice(-2)}.${('0' + (personal.dateBirth.getMonth() + 1)).slice(-2)}.${personal.dateBirth.getFullYear()}`;
-
   return (
     <>
       <ProfileBlock className="flex ">
         <Image
-          src={"/assets/img/user-avatar.png"}
+          src={"/static/" + props?.data?.photo}
           width={90}
           height={90}
           className="rounded-full"
@@ -37,7 +34,7 @@ export default function UserData(props: any) {
           <p className="text-base text-dark font-medium">
             {props?.data?.surname} {props?.data?.name} {props?.data?.patronymic}
           </p>
-          <p className="text-base text-dark font-medium">{new Date(props?.data?.createdAt).toLocaleDateString()}</p>
+          <p className="text-base text-dark font-medium">{props?.data?.birth ? new Date(props?.data?.birth).toLocaleDateString() : 'День рождение не указано!'}</p>
         </div>
         <Image
           src={"/assets/img/iconPers/edit.svg"}

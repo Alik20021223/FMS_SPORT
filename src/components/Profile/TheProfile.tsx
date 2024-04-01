@@ -7,28 +7,26 @@ import FamilyApp from "@/components/Family/page";
 import AchievementApp from "@/components/Achievement/page";
 import axios from "axios";
 
-export type TUserInfoData = {
-  fullname: string;
-  id: string;
-  balanse: number;
-}
+import { setUser } from "@/redux/features/fsmbSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 type TUserInfoProps = {
-  data: TUserInfoData;
   activeTab: string;
 }
 
-export default function TheProfile({ data, activeTab }: TUserInfoProps) {
+export default function TheProfile({ activeTab }: TUserInfoProps) {
   const [active, setActive] = useState(activeTab);
-  const [user, setUser] = useState<any>({})
-
+  const user = useAppSelector(state => state.personal)
+  const dispatch = useAppDispatch()
+  
   useEffect(() => {
     axios.get('/api/me', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
       }
     }).then((res: any) => {
-      setUser(res.data);
+      dispatch(setUser(res.data));
+      // setUser(res.data);
     })
   }, [])
 
@@ -45,7 +43,7 @@ export default function TheProfile({ data, activeTab }: TUserInfoProps) {
       case "family":
         return <FamilyApp data={user} />;
       case "achievements":
-        return <AchievementApp />;
+        return <AchievementApp data={user} />;
       default:
         return null;
     }
