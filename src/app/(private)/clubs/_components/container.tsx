@@ -136,7 +136,7 @@ export default function Container() {
             <div className="flex flex-wrap max-w-[1200px]">
                 <h4 className="section__heading w-[100%] font-bold text-xl">Клубы</h4>
                 <form className="w-full mt-3" onSubmit={handleSubmit}>
-                    <div className="w-[60%] justify-between flex">
+                    <div className="w-[100%] justify-between flex">
                         <div className="w-[46%]">
                             <label aria-label="Название">
                                 <p className="mb-2">Название</p>
@@ -159,7 +159,7 @@ export default function Container() {
                             </label>
                         </div>
                     </div>
-                    <div className="w-[30%] mt-4">
+                    <div className="w-[80%] mt-4">
                         <label aria-label="Town">
                             <p className="mb-2">Лига</p>
                             <Select
@@ -175,10 +175,10 @@ export default function Container() {
                             </Select>
                         </label>
                     </div>
-                    <div className="w-[60%] mt-4">
+                    <div className="w-[80%] mt-4">
                         <h3>Возраст</h3>
                         <Select
-                            className="w-[60%] mt-2"
+                            className="w-[100%] mt-2"
                             placeholder="12-14"
                             classNames={btnClass}
                         >
@@ -189,7 +189,7 @@ export default function Container() {
                             ))}
                         </Select>
                     </div>
-                    <div className="w-[60%] mt-4">
+                    <div className="w-[80%] mt-4">
                         <label aria-label="Nomination">
                             <p className="mb-2">Номинация</p>
                             <Select
@@ -204,11 +204,11 @@ export default function Container() {
                             </Select>
                         </label>
                     </div>
-                    <div className="w-[60%] mt-8 flex justify-end">
+                    <div className="w-[80%] mt-8 flex justify-end">
                         <Button type="submit" className="py-[10px] w-[70%] bg-prime text-white">Поиск клуба</Button>
                     </div>
                 </form>
-                <div className="w-[80%] mt-9">
+                <div className="w-[100%] mt-9">
                     <TableAthletes cols={columns} rows={rows} />
                 </div>
             </div>

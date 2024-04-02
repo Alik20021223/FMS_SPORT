@@ -16,7 +16,8 @@ const initialState: PersonalState = {
     email: '',
     balance: 0,
     family: [],
-    anthropometry: undefined
+    anthropometry: undefined,
+    token: null
 }
 
 export const fsmb = createSlice({
@@ -36,10 +37,17 @@ export const fsmb = createSlice({
             state.balance = action.payload.balance
             state.family = action.payload.family
             state.anthropometry = action.payload.anthropometry
+            state.token = localStorage.getItem(btoa('token'))
+        },
+        checkToken: (state) => {
+            state.token = localStorage.getItem(btoa('token'))
+        },
+        logout: (state) => {
+            localStorage.clear();
         }
     }
 })
 
-export const {setUser} = fsmb.actions
+export const {setUser, checkToken, logout} = fsmb.actions
 
 export default fsmb.reducer

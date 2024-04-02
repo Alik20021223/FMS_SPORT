@@ -52,21 +52,21 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
           height={70}
           className="object-cover rounded-full border-2 border-prime"
         />
-        <ul className="mb-10 flex flex-col gap-4 text-dark">
+        <ul className="mb-10 flex flex-col gap-3 text-dark">
           <li>{data.surname} {data.name} {data.patronymic}</li>
           <li>ID{Intl.NumberFormat('ru-RU', {maximumSignificantDigits: 6}).format(data.id,)}</li>
-          <li className="flex items-center">
+          <li className="flex flex-wrap items-center">
             <span className="mr-4">Баланс</span>
             <span className="mr-8 text-gray-500">{data.balance} руб.</span>
-            <AppButton onClick={redirectToPay}>
+            <AppButton className='mt-3' onClick={redirectToPay}>
               Пополнить баланс
             </AppButton>
           </li>
         </ul>
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-3">
           <li>
             Личные данные
-            <ul className="flex flex-col gap-4 ml-10 mt-4">
+            <ul className="flex flex-col gap-3 ml-10 mt-4">
               {userMenu.map((m, i) => (
                 <li key={i}>
                   <Link href={m.link} prefetch={false}>

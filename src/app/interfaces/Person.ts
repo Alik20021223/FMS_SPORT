@@ -11,5 +11,6 @@ export interface PersonalState {
     email: string,
     balance: number,
     family: any[],
-    anthropometry: any
+    anthropometry: any,
+    token: null | string
 }

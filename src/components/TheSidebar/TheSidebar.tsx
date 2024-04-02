@@ -4,6 +4,7 @@ import { TUserInfoData, UserInfo } from "./UserInfo"
 import Link from "next/link"
 import { useAppSelector } from "@/redux/hooks"
 import { PersonalState } from "@/app/interfaces/Person"
+import './sidebar.css';
 
 export const TheSidebar = () => {
 
@@ -11,7 +12,7 @@ export const TheSidebar = () => {
 
   return (
     <>
-      <nav className="px-8 py-11 max-h-dvh-100 self-baseline overflow-auto">
+      <nav className="fsmb-sidebar px-8 py-11 min-h-screen max-h-screen self-baseline overflow-auto w-[350px] sticky top-0 bg-[#eeeeee]">
         <Link href="/" className="flex gap-4 items-center mb-12">
           <Image
             src="/assets/img/logo-fsmb.png"

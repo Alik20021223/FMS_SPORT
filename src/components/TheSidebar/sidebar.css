@@ -1,0 +1,21 @@
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+.fsmb-sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: #dfdfdf #eee;
+}
+
+/* Chrome, Edge, and Safari */
+.fsmb-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.fsmb-sidebar::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+.fsmb-sidebar::-webkit-scrollbar-thumb {
+    background-color: #dfdfdf;
+    border-radius: 10px;
+    border: 3px solid #eee;
+}

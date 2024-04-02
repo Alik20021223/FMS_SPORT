@@ -4,7 +4,7 @@ import React from "react";
 export default function Profile() {
 
   return (
-    <section className="flex  items-center">
+    <section className="flex w-[700]">
       <TheProfile activeTab="personal"/>
     </section>
   );

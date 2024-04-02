@@ -19,16 +19,7 @@ export default function TheProfile({ activeTab }: TUserInfoProps) {
   const user = useAppSelector(state => state.personal)
   const dispatch = useAppDispatch()
   
-  useEffect(() => {
-    axios.get('/api/me', {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
-      }
-    }).then((res: any) => {
-      dispatch(setUser(res.data));
-      // setUser(res.data);
-    })
-  }, [])
+
 
   const handleTabClick = (tab: string) => {
     setActive(tab);

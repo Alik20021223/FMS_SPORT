@@ -1,3 +1,4 @@
+import { AuthWrapper } from "@/components/AuthComponent";
 import { TheSidebar } from "@/components/TheSidebar/TheSidebar";
 import type { Metadata } from "next";
 
@@ -19,12 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
-      <TheSidebar />
-      <main className="ml-12 w-full bg-white flex-1 overflow-y-auto min-h h-full relative pt-16">
-      
+    <AuthWrapper>
+      <main className=" w-full bg-white flex flex-wrap justify-between relative ">
+        <TheSidebar />
         {children}
+        <div className="banner-promote sticky flex items-center justify-center top-[20px] right-[30px] w-[150px] h-[350px] bg-[#ccc]">
+          <h5>Реклама</h5>
+        </div>
       </main>
-    </div>
+    </AuthWrapper>
   );
 }
+
