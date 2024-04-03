@@ -5,7 +5,7 @@ import React from "react";
 
 export default function Profile() {
   return (
-    <section className="flex  items-center">
+    <section className="w-[700px] pt-5 pb-5">
       <TheProfile activeTab="achievements"/>
     </section>
   );

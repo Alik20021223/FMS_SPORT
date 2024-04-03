@@ -29,9 +29,9 @@ export const TheFeedback = () => {
     ]
 
     return (
-        <div>
+        <>
             <h1 className='font-bold text-2xl mb-[132px] leading-7'>Обратная связь</h1>
-            <div className='bg-[#FCFCFC] w-[719px] h-[528px] rounded-[20px]'>
+            <div className='bg-[#FCFCFC] w-full h-[528px] rounded-[20px]'>
                 <form action="onSubmit" className='w-full pl-8 pt-10 pr-9 pb-6 flex flex-col'>
                     <div className='mb-[23px]'>
                         <Select
@@ -54,7 +54,7 @@ export const TheFeedback = () => {
                     <AppButton color='prime' size='sm' className='!w-1/2 mt-6 flex self-end'>Отправить</AppButton>
                 </form>
             </div>
-        </div>
+        </>
     );
 };
 

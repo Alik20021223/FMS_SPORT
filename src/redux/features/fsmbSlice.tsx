@@ -15,6 +15,9 @@ const initialState: PersonalState = {
     phone: '',
     email: '',
     balance: 0,
+    city: null,
+    club: null,
+    coach: null,
     family: [],
     anthropometry: undefined,
     token: null

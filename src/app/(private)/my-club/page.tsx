@@ -3,7 +3,9 @@ import MyClub from '@/components/core/myClubCom/page'
 
 const Club = () => {
     return (
-        <MyClub isButton={true} />
+        <section className="w-[700px] pt-5 pb-5 flex justify-center">
+            <MyClub isButton={true} />
+        </section>
     )
 }
 

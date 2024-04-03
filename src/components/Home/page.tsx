@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import '@/components/AuthGuard/loader.css'
 export default function Home() {
     const router = useRouter();
     useEffect(()=> {
@@ -11,7 +11,9 @@ export default function Home() {
     
     return (
         <>
-            <h1>Загрузка....</h1>
+            <div className='flex w-screen h-screen items-center justify-center'>
+                <div className="loader"></div>
+            </div>
         </>
     )
 }

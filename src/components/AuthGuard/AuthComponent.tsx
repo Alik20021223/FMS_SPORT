@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import './loader.css';
 type Props = {
     children?: React.ReactNode;
 };
@@ -39,7 +39,11 @@ export const AuthWrapper = ({ children }: Props) => {
     }, [token, push]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className='flex w-screen h-screen items-center justify-center'>
+                <div className="loader"></div>
+            </div>
+        );
     }
 
     return children;

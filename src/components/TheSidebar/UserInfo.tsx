@@ -54,7 +54,7 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
         />
         <ul className="mb-10 flex flex-col gap-3 text-dark">
           <li>{data.surname} {data.name} {data.patronymic}</li>
-          <li>ID{Intl.NumberFormat('ru-RU', {maximumSignificantDigits: 6}).format(data.id,)}</li>
+          <li>ID{Intl.NumberFormat('ru-RU', { maximumSignificantDigits: 6 }).format(data.id,)}</li>
           <li className="flex flex-wrap items-center">
             <span className="mr-4">Баланс</span>
             <span className="mr-8 text-gray-500">{data.balance} руб.</span>
@@ -65,7 +65,7 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
         </ul>
         <ul className="flex flex-col gap-3">
           <li>
-            Личные данные
+            <Link href={'/profile'}>Личные данные</Link>
             <ul className="flex flex-col gap-3 ml-10 mt-4">
               {userMenu.map((m, i) => (
                 <li key={i}>

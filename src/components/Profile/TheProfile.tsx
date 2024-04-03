@@ -41,7 +41,7 @@ export default function TheProfile({ activeTab }: TUserInfoProps) {
   };
 
   return (
-    <div>
+    <>
       <Notifications />
       <h1 className="font-bold text-2xl  leading-7 text-dark">
         Личные данные
@@ -69,7 +69,7 @@ export default function TheProfile({ activeTab }: TUserInfoProps) {
         />
       </div>
       <div className="mt-4">{renderContent()}</div>
-    </div>
+    </>
   );
 }
 

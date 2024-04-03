@@ -1,4 +1,4 @@
-import { AuthWrapper } from "@/components/AuthComponent";
+import { AuthWrapper } from "@/components/AuthGuard/AuthComponent";
 import { TheSidebar } from "@/components/TheSidebar/TheSidebar";
 import type { Metadata } from "next";
 

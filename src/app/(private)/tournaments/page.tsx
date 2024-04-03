@@ -6,7 +6,7 @@ import { AllTourney } from "@/components/tourneyCom/allTourney";
 
 export default function Tourney() {
   return (
-    <section className="flex h-full w-[937px] flex-col items-center">
+    <section className="flex h-full w-[700px] pt-5 pb-5 flex-col items-center">
       <CreateTourney />
       <ApplyTourney />
       <div className="w-full">

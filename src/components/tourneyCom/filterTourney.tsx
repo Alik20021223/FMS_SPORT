@@ -26,7 +26,7 @@ export const FilterTourney = () => {
         <div className='mt-5'>
             <div className='flex w-full flex-col'>
                 <p>Турниры</p>
-                <div className='flex flex-col w-[746px] ml-[87px] items-center'>
+                <div className='flex flex-col w-[90%] ml-[10%]  items-center'>
                     <div className='flex w-full justify-between'>
                         <div className='flex items-center'>
                             <p>Возраст</p>

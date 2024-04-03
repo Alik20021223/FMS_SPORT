@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Notifications() {
   return (
-    <div className="w-[651px] bg-[#D428281F] mb-[11px] rounded-2xl pt-[26px] pl-[26px] pb-[17px] pr-[22px] relative">
+    <div className="w-full bg-[#D428281F] mb-[11px] rounded-2xl pt-[26px] pl-[26px] pb-[17px] pr-[22px] relative">
       <p className="text-base text-dark ">
         У вас не отвеченный запрос на добавление{" "}
       </p>
