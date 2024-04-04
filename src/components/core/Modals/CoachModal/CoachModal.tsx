@@ -32,6 +32,11 @@ export default function CoachModal({ onClose }: TCoachModal) {
     coach.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleClick = ( coach: any) => {
+    console.log(coach)
+    onClose();
+  }
+
   return (
     <Modal isOpen={modalOpen} onClose={closeModal}>
       <div className="p-4 max-h-80 overflow-y-auto">
@@ -46,7 +51,8 @@ export default function CoachModal({ onClose }: TCoachModal) {
           {filteredCoaches.map((coach, index) => (
             <li
               key={index}
-              className={`py-2 ${index % 2 === 0 ? "bg-gray-100" : ""}`}
+              className={`py-2 px-2 ${index % 2 === 0 ? "bg-gray-100" : ""} hover:bg-gray-300 cursor-pointer`}
+              onClick={() => handleClick(coach)}
             >
               {coach}
             </li>

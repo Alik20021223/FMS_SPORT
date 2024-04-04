@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Image from "next/image";
 import { AppInput } from "../../Input/AppInput";
+import { Checkbox } from "@nextui-org/react";
 import { AppButton } from "../../Button/AppButton";
 
 
@@ -12,7 +13,7 @@ type TEditModal = {
 
 
 export default function EditModal({ onClose }: TEditModal) {
-  const [gender, setGender] = useState("");
+
   const [modalOpen, setModalOpen] = useState(true);
 
   const closeModal = () => {
@@ -22,17 +23,18 @@ export default function EditModal({ onClose }: TEditModal) {
   return (
     <Modal isOpen={modalOpen} onClose={closeModal}>
       <div>
-        <div className="flex justify-between items-center">
-       
+        <div className="flex justify-between items-center mt-4">
           <div>
-          <Image
-            src={"/assets/img/iconPers/camera.svg"}
-            width={22}
-            height={12}
-            alt=""
-            className="mr-auto ml-auto mb-4"
-          />
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center"></div>
+
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center">
+              <Image
+                src={"/assets/img/iconPers/camera.svg"}
+                width={22}
+                height={12}
+                alt=""
+                className="mr-auto ml-auto"
+              />
+            </div>
             <p className="text-xs text-dark text-center">Изменить</p>
           </div>
           <Image
@@ -43,14 +45,15 @@ export default function EditModal({ onClose }: TEditModal) {
             className="rounded-full"
           />
           <div>
-          <Image
-            src={"/assets/img/iconPers/delete.svg"}
-            width={22}
-            height={12}
-            alt=""
-            className="mr-auto ml-auto mb-4"
-          />
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center"></div>
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center">
+              <Image
+                src={"/assets/img/iconPers/delete.svg"}
+                width={22}
+                height={12}
+                alt=""
+                className="mr-auto ml-auto"
+              />
+            </div>
             <p className="text-xs text-dark text-center">Удалить</p>
           </div>
         </div>
@@ -92,17 +95,8 @@ export default function EditModal({ onClose }: TEditModal) {
         <div>
           <p className="text-base text-dark mt-6">Пол</p>
           <div className="flex items-center mt-2">
-            <span className="mr-2">Ж</span>
-            <label aria-label="gender" className="switch">
-              <input
-                type="checkbox"
-                onChange={() =>
-                  setGender(gender === "male" ? "female" : "male")
-                }
-              />
-              <span className="slider round"></span>
-            </label>
-            <span className="ml-2">М</span>
+            Ж<Checkbox radius="full" className="ml-[1px] mr-2" size="lg"></Checkbox>
+            <Checkbox radius="full" size="lg">М</Checkbox>
           </div>
         </div>
 

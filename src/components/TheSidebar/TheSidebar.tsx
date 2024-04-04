@@ -12,7 +12,7 @@ export const TheSidebar = () => {
 
   return (
     <>
-      <nav className="fsmb-sidebar px-8 py-11 min-h-screen max-h-screen self-baseline overflow-auto w-[350px] sticky top-0 bg-[#eeeeee]">
+      <nav className="fsmb-sidebar px-8 py-11 min-h-screen max-h-screen self-baseline overflow-auto w-[25%] sticky top-0 bg-[#eeeeee]">
         <Link href="/" className="flex gap-4 items-center mb-12">
           <Image
             src="/assets/img/logo-fsmb.png"

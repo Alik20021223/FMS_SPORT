@@ -124,24 +124,22 @@ export default function Login() {
 
 
                             <button className="bg-[#155783] py-[11px] uppercase rounded-full font-semibold text-white lowercase">ЗАРЕГИСТРИРОВАТЬСЯ</button>
-                            {isClick ? (
-                                <div className={`flex flex-col justify-start items-start ${isClick && `mt-[42px]`}`}>
-                                    <div className="mb-6 flex ">
-                                        <input className="mr-2 w-[17px] h-[17px]" type="checkbox" name="" id="politic-conf" />
-                                        <label className="text-xs" htmlFor="politic-conf">Я принимаю условия
-                                            Пользовательского соглашения и даю своё согласие
-                                            на обработку моей персональной информации на
-                                            условиях, определенных Политикой кониденциальности.
-                                        </label>
-                                    </div>
-                                    <div className="flex">
-                                        <input className="mr-2 w-[17px] h-[17px]" type="checkbox" name="" id="email-res" />
-                                        <label className="text-xs" htmlFor="email-res">Я не хочу получать рекламу и другие предложения
-                                            данного сервиса
-                                        </label>
-                                    </div>
+                            <div className={`flex flex-col justify-start items-start ${isClick && `mt-[42px]`}`}>
+                                <div className="mb-6 flex ">
+                                    <input className="mr-2 w-[17px] h-[17px]" type="checkbox" name="" id="politic-conf" />
+                                    <label className="text-xs" htmlFor="politic-conf">Я принимаю условия
+                                        Пользовательского соглашения и даю своё согласие
+                                        на обработку моей персональной информации на
+                                        условиях, определенных Политикой кониденциальности.
+                                    </label>
                                 </div>
-                            ) : ''}
+                                <div className="flex">
+                                    <input className="mr-2 w-[17px] h-[17px]" type="checkbox" name="" id="email-res" />
+                                    <label className="text-xs" htmlFor="email-res">Я не хочу получать рекламу и другие предложения
+                                        данного сервиса
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

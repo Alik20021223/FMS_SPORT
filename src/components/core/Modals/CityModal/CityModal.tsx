@@ -1,17 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
+import { Select, SelectItem } from "@nextui-org/react";
 
 type TCityModal = {
   onClose: () => void;
 };
 
 export const cities = [
-  "New York",
-  "Los Angeles",
-  "Chicago",
-  "Houston",
-  "Phoenix",
+  { id: 1, txt: "New York" },
+  { id: 2, txt: "Los Angeles" },
+  { id: 3, txt: "Chicago" },
+  { id: 4, txt: "Houston" },
+  { id: 5, txt: "Phoenix" },
 ];
 
 export default function CityModal({ onClose }: TCityModal) {
@@ -24,8 +25,13 @@ export default function CityModal({ onClose }: TCityModal) {
   };
 
   const filteredCities = cities.filter((city) =>
-    city.toLowerCase().includes(searchTerm.toLowerCase())
+    city.txt.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleClick = ( city: any) => {
+    console.log(city.txt)
+    onClose();
+  }
 
   return (
     <Modal isOpen={modalOpen} onClose={closeModal}>
@@ -41,9 +47,10 @@ export default function CityModal({ onClose }: TCityModal) {
           {filteredCities.map((city, index) => (
             <li
               key={index}
-              className={`py-2 ${index % 2 === 0 ? "bg-gray-100" : ""}`}
+              className={`py-2 px-2 ${index % 2 === 0 ? "bg-gray-100" : ""} hover:bg-gray-300 cursor-pointer`}
+              onClick={() => handleClick(city)}
             >
-              {city}
+              {city.txt}
             </li>
           ))}
         </ul>

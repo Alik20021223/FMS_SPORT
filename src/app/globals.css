@@ -17,6 +17,16 @@
 .checkbox-input:checked {
   transform: scale(1.2);
 }
+
+.disable-gradient {
+  background: linear-gradient(
+    267.34deg,
+    rgba(21, 87, 131, 0.05) 3.06%,
+    rgba(212, 40, 40, 0.05) 97.12%
+  );
+  
+}
+
 .custom-gradient {
   background: linear-gradient(
     267.34deg,

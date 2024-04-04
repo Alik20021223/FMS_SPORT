@@ -18,7 +18,7 @@ const participants: Participant[] = [
 
 const WatchTourney = () => {
     return (
-        <div className='w-[95%] rounded-lg bg-[#EEEEEE] h-full'>
+        <div className='w-[50%] rounded-lg bg-[#EEEEEE] h-full'>
             <div className='pt-[20px] pl-[4%] pr-[10%]'>
                 Просмотр турнира
 
@@ -37,8 +37,8 @@ const WatchTourney = () => {
                     </div>
                 </div>
                 <div className='flex flex-col'>
-                    <div className='w-full flex justify-center'>
-                        <div className='w-[75%]'>
+                    <div className='w-full'>
+                        <div className='w-[100%]'>
                             <TableTourney participants={participants} />
                         </div>
                     </div>

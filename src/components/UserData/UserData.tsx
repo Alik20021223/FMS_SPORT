@@ -46,14 +46,14 @@ export default function UserData(props: any) {
         />
       </ProfileBlock>
       <div className="mt-4 grid grid-cols-4 gap-4 justify-between">
-        <Role role={"Тренер 3 кат."} date={"10.11.2009"} />
-        <Role role={"Судья 1 кат."} date={"11.12.2020"} />
-        <Role role={"Спортсмен."} date={"15.10.2007"} />
-        <Role role={"Родитель"} date={"10.11.2009"} />
-        <Role role={"Гость."} />
-        <Role role={"Глава клуба"} />
-        <Role role={"Организатор"} />
-        <Role role={"Админ"} />
+        <Role disable={true} role={"Тренер 3 кат."} date={"10.11.2009"} />
+        <Role disable={true} role={"Судья 1 кат."} date={"11.12.2020"} />
+        <Role disable={true} role={"Спортсмен."} date={"15.10.2007"} />
+        <Role disable={false} role={"Родитель"} date={"10.11.2009"} />
+        <Role disable={false} role={"Гость."} />
+        <Role disable={true} role={"Глава клуба"} />
+        <Role disable={true} role={"Организатор"} />
+        <Role disable={true} role={"Админ"} />
       </div>
       <BlockArrow
         img={"/assets/img/iconPers/location.svg"}
@@ -65,7 +65,7 @@ export default function UserData(props: any) {
         img={"/assets/img/iconPers/swords.svg"}
         label={"Клуб"}
         value={personal.club ? personal.club.name : 'Не состоит!'}
-        onClick={() => personal.city ? setIsClubModalOpen(!isClubModalOpen) : void(0)}
+        onClick={() => personal.city ? setIsClubModalOpen(!isClubModalOpen) : void (0)}
       />
       <BlockArrow
         img={"/assets/img/iconPers/coach.svg"}
@@ -82,8 +82,8 @@ export default function UserData(props: any) {
       <BlockArrow
         img={"/assets/img/iconPers/coach.svg"}
         value={"Удалить аккаунт"}
-        className="bg-[#D42828] bg-opacity-[0.12] "
-        textStyle="text-[#D42828]"
+        className="!bg-[#ff8383] "
+        textStyle="!text-black"
       />
       {isEditModalOpen && (
         <EditModal onClose={() => setIsEditModalOpen(false)} />
@@ -104,13 +104,14 @@ export default function UserData(props: any) {
 type TRole = {
   role: string;
   date?: string;
+  disable: boolean;
 };
 
-function Role({ role, date }: TRole) {
+function Role({ role, date, disable }: TRole) {
   return (
-      <ProfileBlock className="rounded-3xl">
-        <p className="text-base text-dark text-center">{role}</p>
-        <p className="text-base text-dark text-center">{date}</p>
-      </ProfileBlock>
+    <ProfileBlock disable={disable} className="rounded-3xl">
+      <p className={`${disable ? 'text-slate-400' : 'text-dark'} text-base  text-center`}>{role}</p>
+      <p className={`${disable ? 'text-slate-400' : 'text-dark'} text-base  text-center`}>{date}</p>
+    </ProfileBlock>
   );
 }
