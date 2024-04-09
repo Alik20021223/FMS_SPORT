@@ -54,7 +54,7 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
         />
         <ul className="mb-10 flex flex-col gap-3 text-dark">
           <li>{data.surname} {data.name} {data.patronymic}</li>
-          <li>ID{Intl.NumberFormat('ru-RU', { maximumSignificantDigits: 6 }).format(data.id,)}</li>
+          <li>ID {data.id.toString().padStart(6, "0")}</li>
           <li className="flex flex-wrap items-center">
             <span className="mr-4">Баланс</span>
             <span className="mr-8 text-gray-500">{data.balance} руб.</span>
