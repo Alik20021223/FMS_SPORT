@@ -5,26 +5,60 @@ import Image from "next/image";
 import EditModal from "../core/Modals/EditModal/EditModal";
 import BlockArrow from "../core/BlockArrow/BlockArrow";
 import { AppInput } from "../core/Input/AppInput";
-import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateAnthropometry } from "@/redux/features/fsmbSlice";
+import { Anthropometry } from "@/app/interfaces/Anthropometry";
 
 type TAppInfo = {
   label: string,
   value: string | number,
+  changeHandler?: Function
 }
 
 export default function AnthropometryData(props: any) {
+  const currentAnthropometry = useAppSelector(state => state.personal.anthropometry)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const dispatch = useAppDispatch()
+  let newAnthropometry: Anthropometry = {
+      weight: 0,
+      height: 0,
+      shoes: 0,
+      armor: 0,
+      head: 0,
+      helmet: 0
+    } 
+    Object.assign(newAnthropometry, currentAnthropometry)
 
-  function updateAnthroponometry(data: any) {
-    axios.put('api/anthropometry', JSON.stringify(data), {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
-      }
-    }).then(res => {
-      console.log(res);
-      
-    })
+  function updateWeight(value: number) {
+    newAnthropometry.weight = value
+    dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
   }
+
+  function updateHeight(value: number) {
+    newAnthropometry.height = value
+    dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
+  }
+
+  function updateShoes(value: number) {
+    newAnthropometry.shoes = value
+    dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
+  }
+
+  function updateArmor(value: number) {
+    newAnthropometry.armor = value
+    dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
+  }
+
+  function updateHead(value: number) {
+    newAnthropometry.head = value
+    dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
+  }
+
+  function updateHelmet(value: number) {
+    newAnthropometry.helmet = value
+    dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
+  }
+
 
   return (
     <>
@@ -59,9 +93,9 @@ export default function AnthropometryData(props: any) {
       <p className="text-base text-dark text-center mt-[13px]">Размеры</p>
 
       <div className="flex justify-between mt-2">
-        <InfoBlock label={"Шлем"} value={props?.data.anthropometry?.helmet} />
-        <InfoBlock label={"Доспехи"} value={props?.data.anthropometry?.armor} />
-        <InfoBlock label={"Обувь"} value={props?.data.anthropometry?.shoes} />
+        <InfoBlock changeHandler={updateHelmet} label={"Шлем"} value={props?.data.anthropometry?.helmet} />
+        <InfoBlock changeHandler={updateArmor} label={"Доспехи"} value={props?.data.anthropometry?.armor} />
+        <InfoBlock changeHandler={updateShoes} label={"Обувь"} value={props?.data.anthropometry?.shoes} />
       </div>
       <BlockArrow
         img={"/assets/img/iconPers/age.svg"}
@@ -76,7 +110,7 @@ export default function AnthropometryData(props: any) {
         label={"Вес"}
         rightValue={props?.data.anthropometry?.weight}
         isEditable={true}
-        changeHandler={updateAnthroponometry}
+        changeHandler={updateWeight}
       />
       <BlockArrow
         img={"/assets/img/iconPers/weight.svg"}
@@ -84,6 +118,7 @@ export default function AnthropometryData(props: any) {
         label={"Рост"}
         rightValue={props?.data.anthropometry?.height}
         isEditable={true}
+        changeHandler={updateHeight}
       />
       <BlockArrow
         img={"/assets/img/iconPers/head.svg"}
@@ -91,12 +126,13 @@ export default function AnthropometryData(props: any) {
         label={"Окружность головы"}
         rightValue={props?.data.anthropometry?.head}
         isEditable={true}
+        changeHandler={updateHead}
       />
     </>
   );
 }
 
-function InfoBlock({ label, value }: TAppInfo) {
+function InfoBlock({ label, value, changeHandler }: TAppInfo) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState(value);
 
@@ -104,17 +140,14 @@ function InfoBlock({ label, value }: TAppInfo) {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
-    setIsEditing(false);
-  };
 
-  const handleCancelClick = () => {
-    setIsEditing(false);
-    setEditedValue(value);
+  const handleChange = (e: number | string) => {
+    setEditedValue(e);
   };
 
   const handleBlur = () => {
-    handleSaveClick();
+    setIsEditing(false);
+    if (changeHandler) changeHandler(editedValue)
   };
 
   return (
@@ -124,7 +157,7 @@ function InfoBlock({ label, value }: TAppInfo) {
         <AppInput
           type="text"
           value={editedValue}
-          onChange={(e) => setEditedValue(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           onBlur={handleBlur}
           className="w-[100px] h-[30px]"
         />

@@ -3,7 +3,6 @@ import { If } from '@/components/core/If';
 
 type TAppInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: ReactNode;
-
 }
 
 export const AppInput = ({ label, ...props }: TAppInputProps) => {

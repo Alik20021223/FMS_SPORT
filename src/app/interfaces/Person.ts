@@ -1,3 +1,4 @@
+import { Anthropometry } from "./Anthropometry";
 import { City } from "./City";
 import { Club } from "./Club";
 import { Role } from "./Role";
@@ -17,9 +18,9 @@ export interface PersonalState {
     city: City | null,
     club: Club | null,
     coach: Person | null,
-    family: Role[],
-    roles: any[],
-    anthropometry: any,
+    family: Person[],
+    roles: Role[],
+    anthropometry: Anthropometry,
     token: null | string
 }
 

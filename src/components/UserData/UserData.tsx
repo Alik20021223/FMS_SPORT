@@ -52,7 +52,7 @@ export default function UserData(props: any) {
         <Role disable={true} role={"Родитель"} date={"10.11.2009"} />
       </div> */}
       <div className="mt-4 grid grid-cols-4 gap-4 justify-between">
-        {personal.roles.map(role => (<Role disable={false} role={role?.roles} />))}
+        {personal.roles.map((role, idx) => (<Role key={idx} disable={false} role={role?.roles} />))}
       </div>
       <BlockArrow
         img={"/assets/img/iconPers/location.svg"}

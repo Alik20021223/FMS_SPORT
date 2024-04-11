@@ -25,7 +25,7 @@ export default function BlockArrow({
   className,
   textStyle,
   isEditable = false,
-  changeHandler = void(0)
+  changeHandler = void (0)
 }: TBlockArrow) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedRightValue, setEditedRightValue] = useState(rightValue || "");
@@ -39,14 +39,13 @@ export default function BlockArrow({
     setEditedRightValue(editedRightValue);
   };
 
-  const handleCancelClick = () => {
-    setIsEditing(false);
-    setEditedRightValue(rightValue || "");
+  const handleCancelChange = (e: number | string) => {
+    setEditedRightValue(e);
   };
 
   const handleBlur = () => {
-    if (changeHandler) changeHandler();
-    handleSaveClick();
+    setIsEditing(false);
+    if (changeHandler) changeHandler(editedRightValue)
   };
 
   const rightValueElement = isEditable ? (
@@ -55,7 +54,7 @@ export default function BlockArrow({
         <AppInput
           type="number"
           value={editedRightValue}
-          onChange={(e) => setEditedRightValue(e.target.value)}
+          onChange={(e) => handleCancelChange(e.target.value)}
           onBlur={handleBlur}
           className="text-base text-dark w-[100px]"
         />

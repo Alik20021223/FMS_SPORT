@@ -3,9 +3,14 @@ import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Image from "next/image";
 import { AppInput } from "../../Input/AppInput";
-import { Checkbox } from "@nextui-org/react";
+import { Checkbox, Radio, RadioGroup } from "@nextui-org/react";
 import { AppButton } from "../../Button/AppButton";
-
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/material.css'
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { PersonalState } from "@/app/interfaces/Person";
+import { setUser } from "@/redux/features/fsmbSlice";
+import axios from "axios";
 
 type TEditModal = {
   onClose: () => void;
@@ -15,6 +20,49 @@ type TEditModal = {
 export default function EditModal({ onClose }: TEditModal) {
 
   const [modalOpen, setModalOpen] = useState(true);
+  const dispatch = useAppDispatch()
+  const userData = useAppSelector(state => state.personal)
+  let updatedUserData: PersonalState = {
+    id: 0,
+    photo: "",
+    age: 0,
+    name: "",
+    surname: "",
+    patronymic: null,
+    gender: "",
+    birth: null,
+    phone: "",
+    email: "",
+    balance: 0,
+    city: null,
+    club: null,
+    coach: null,
+    family: [],
+    roles: [],
+    anthropometry: {
+      weight: 0,
+      height: 0,
+      shoes: 0,
+      armor: 0,
+      head: 0,
+      helmet: 0
+    },
+    token: null
+  }
+  Object.assign(updatedUserData, userData)
+  
+  function updateHandler() {
+    console.log(updatedUserData);
+    
+    axios.put('/api/profile/edit', updatedUserData, {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+        }
+    }).then(res => {
+      dispatch(setUser(updatedUserData))
+    })
+  }
+  
 
   const closeModal = () => {
     setModalOpen(false);
@@ -26,7 +74,7 @@ export default function EditModal({ onClose }: TEditModal) {
         <div className="flex justify-between items-center mt-4">
           <div>
 
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center">
+            <label className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center cursor-pointer">
               <Image
                 src={"/assets/img/iconPers/camera.svg"}
                 width={22}
@@ -34,11 +82,12 @@ export default function EditModal({ onClose }: TEditModal) {
                 alt=""
                 className="mr-auto ml-auto"
               />
-            </div>
+              <input type="file" accept="image/*" className="opacity-0 w-0 h-0"/>
+            </label>
             <p className="text-xs text-dark text-center">Изменить</p>
           </div>
           <Image
-            src={"/assets/img/user-avatar.png"}
+            src={"/static/" + userData?.photo}
             width={90}
             height={90}
             alt=""
@@ -60,6 +109,8 @@ export default function EditModal({ onClose }: TEditModal) {
         <div>
           <p className="text-base text-dark mt-6">Как к вам обращаться?</p>
           <AppInput
+            defaultValue={userData.name}
+            onChange={e => updatedUserData.name = e.target.value}
             placeholder="Ваше Имя"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
@@ -80,43 +131,60 @@ export default function EditModal({ onClose }: TEditModal) {
         <div>
           <p className="text-base text-dark mt-6">Фамилия, Имя, Отчество</p>
           <AppInput
+            defaultValue={userData.surname}
+            onChange={e => updatedUserData.surname = e.target.value}
             placeholder="Иванов"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
           <AppInput
+            defaultValue={userData.name}
+            onChange={e => updatedUserData.name = e.target.value}
             placeholder="Иван"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
           <AppInput
+            defaultValue={userData.patronymic || ''}
+            onChange={e => updatedUserData.patronymic = e.target.value}
             placeholder="Иванович"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
         </div>
         <div>
-          <p className="text-base text-dark mt-6">Пол</p>
-          <div className="flex items-center mt-2">
-            Ж<Checkbox radius="full" className="ml-[1px] mr-2" size="lg"></Checkbox>
-            <Checkbox radius="full" size="lg">М</Checkbox>
-          </div>
+          <RadioGroup
+            label="Пол"
+            orientation="horizontal"
+            className="mt-2"
+            defaultValue={userData.gender}
+            onChange={e => updatedUserData.gender = e.target.value}
+          >
+            <Radio value="female">Ж</Radio>
+            <Radio value="male">М</Radio>
+          </RadioGroup>
         </div>
 
         <div>
           <p className="text-base text-dark mt-6">Дата рождения</p>
           <AppInput
+            type="date"
             placeholder="12.04.1995"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
         </div>
         <div>
           <p className="text-base text-dark mt-6">Мобильный телефон</p>
-          <AppInput
-            placeholder="+7 987 654 32-11"
-            style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
+          <PhoneInput
+            containerClass="w-full mе-[12px]"
+
+            country={'ru'}
+            // value={phone}
+            // onChange={phone => setPhone(phone)}
+            inputProps={{ required: true }}
           />
         </div>
         <div>
           <p className="text-base text-dark mt-6">Эл.Почта</p>
           <AppInput
+            type="email"
             placeholder="ivan@ivanov.ru"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
@@ -151,6 +219,7 @@ export default function EditModal({ onClose }: TEditModal) {
         <div>
           <p className="text-base text-dark mt-6">Дата выдачи</p>
           <AppInput
+            type="date"
             placeholder=""
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />
@@ -164,7 +233,7 @@ export default function EditModal({ onClose }: TEditModal) {
           />
         </div>
 
-        <button className="w-full bg-dark text-white p-2 rounded-xl mt-2 text-base">Сохранить</button>
+        <button onClick={updateHandler} className="w-full bg-dark text-white p-2 rounded-xl mt-2 text-base">Сохранить</button>
       </div>
     </Modal>
   );

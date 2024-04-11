@@ -5,9 +5,6 @@ import AnthropometryData from "@/components/AnthropometryData/AnthropometryData"
 import Notifications from "@/components/core/Notifications/Notifications";
 import FamilyApp from "@/components/Family/page";
 import AchievementApp from "@/components/Achievement/page";
-import axios from "axios";
-
-import { setUser } from "@/redux/features/fsmbSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 type TUserInfoProps = {

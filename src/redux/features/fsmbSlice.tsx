@@ -3,6 +3,7 @@
 import { PersonalState } from "@/app/interfaces/Person"
 import { Role } from "@/app/interfaces/Role"
 import { createSlice } from "@reduxjs/toolkit"
+import axios from "axios"
 
 const initialState: PersonalState = {
     id: 0,
@@ -12,7 +13,7 @@ const initialState: PersonalState = {
     surname: '',
     patronymic: '',
     gender: '',
-    birth: new Date(),
+    birth: null,
     phone: '',
     email: '',
     balance: 0,
@@ -21,7 +22,14 @@ const initialState: PersonalState = {
     coach: null,
     family: [],
     roles: [],
-    anthropometry: undefined,
+    anthropometry: {
+        weight: 0,
+        height: 0,
+        shoes: 0,
+        armor: 0,
+        head: 0,
+        helmet: 0,
+    },
     token: null
 }
 
@@ -65,7 +73,7 @@ export const fsmb = createSlice({
                     case "parent":
                         role.roles = "Родитель"
                         break;
-                    defaut: 
+                    defaut:
                         role.roles = "Неизвестная роль"
                         break;
                 }
@@ -79,10 +87,26 @@ export const fsmb = createSlice({
         },
         logout: (state) => {
             localStorage.clear();
+        },
+        updateAnthropometry: (state, action) => {
+            state.anthropometry = action.payload.anthropometry
+            new Promise(() => {
+                axios.put('/api/anthropometry', action.payload.anthropometry, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+                    }
+                }).then(res => {
+                })
+            })
         }
     }
 })
 
-export const {setUser, checkToken, logout} = fsmb.actions
+export const {
+    setUser,
+    checkToken,
+    logout,
+    updateAnthropometry
+} = fsmb.actions
 
 export default fsmb.reducer
