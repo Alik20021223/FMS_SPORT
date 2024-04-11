@@ -60,6 +60,7 @@ export default function EditModal({ onClose }: TEditModal) {
         }
     }).then(res => {
       dispatch(setUser(updatedUserData))
+      closeModal()
     })
   }
   
