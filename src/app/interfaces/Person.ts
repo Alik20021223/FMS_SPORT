@@ -1,5 +1,6 @@
 import { City } from "./City";
 import { Club } from "./Club";
+import { Role } from "./Role";
 
 export interface PersonalState {
     id: number,
@@ -16,7 +17,8 @@ export interface PersonalState {
     city: City | null,
     club: Club | null,
     coach: Person | null,
-    family: any[],
+    family: Role[],
+    roles: any[],
     anthropometry: any,
     token: null | string
 }

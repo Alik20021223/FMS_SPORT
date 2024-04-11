@@ -18,7 +18,7 @@ export default function UserData(props: any) {
   const [isClubModalOpen, setIsClubModalOpen] = useState(false);
 
   const personal = useSelector((state: RootState) => state.personal)
-
+  
   return (
     <>
       <ProfileBlock className="flex ">
@@ -45,15 +45,14 @@ export default function UserData(props: any) {
           onClick={() => setIsEditModalOpen(!isEditModalOpen)}
         />
       </ProfileBlock>
-      <div className="mt-4 grid grid-cols-4 gap-4 justify-between">
+      {/* <div className="mt-4 grid grid-cols-4 gap-4 justify-between">
         <Role disable={true} role={"Тренер 3 кат."} date={"10.11.2009"} />
         <Role disable={true} role={"Судья 1 кат."} date={"11.12.2020"} />
         <Role disable={true} role={"Спортсмен."} date={"15.10.2007"} />
-        <Role disable={false} role={"Родитель"} date={"10.11.2009"} />
-        <Role disable={false} role={"Гость."} />
-        <Role disable={true} role={"Глава клуба"} />
-        <Role disable={true} role={"Организатор"} />
-        <Role disable={true} role={"Админ"} />
+        <Role disable={true} role={"Родитель"} date={"10.11.2009"} />
+      </div> */}
+      <div className="mt-4 grid grid-cols-4 gap-4 justify-between">
+        {personal.roles.map(role => (<Role disable={false} role={role?.roles} />))}
       </div>
       <BlockArrow
         img={"/assets/img/iconPers/location.svg"}

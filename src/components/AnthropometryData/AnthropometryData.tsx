@@ -15,6 +15,17 @@ type TAppInfo = {
 export default function AnthropometryData(props: any) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  function updateAnthroponometry(data: any) {
+    axios.put('api/anthropometry', JSON.stringify(data), {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then(res => {
+      console.log(res);
+      
+    })
+  }
+
   return (
     <>
       <ProfileBlock className="flex ">
@@ -57,7 +68,7 @@ export default function AnthropometryData(props: any) {
         value={"Полных лет"}
         label={"Возраст"}
         rightValue={props?.data?.age ? props?.data?.age : 0}
-        isEditable={true}
+        isEditable={false}
       />
       <BlockArrow
         img={"/assets/img/iconPers/height.svg"}
@@ -65,6 +76,7 @@ export default function AnthropometryData(props: any) {
         label={"Вес"}
         rightValue={props?.data.anthropometry?.weight}
         isEditable={true}
+        changeHandler={updateAnthroponometry}
       />
       <BlockArrow
         img={"/assets/img/iconPers/weight.svg"}

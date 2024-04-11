@@ -13,6 +13,7 @@ type TBlockArrow = {
   onClick?: () => void;
   textStyle?: string;
   isEditable?: boolean;
+  changeHandler?: Function
 };
 
 export default function BlockArrow({
@@ -24,6 +25,7 @@ export default function BlockArrow({
   className,
   textStyle,
   isEditable = false,
+  changeHandler = void(0)
 }: TBlockArrow) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedRightValue, setEditedRightValue] = useState(rightValue || "");
@@ -43,6 +45,7 @@ export default function BlockArrow({
   };
 
   const handleBlur = () => {
+    if (changeHandler) changeHandler();
     handleSaveClick();
   };
 
