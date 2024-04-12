@@ -18,6 +18,7 @@ export default function UserData(props: any) {
   const [isClubModalOpen, setIsClubModalOpen] = useState(false);
 
   const personal = useSelector((state: RootState) => state.personal)
+  console.log(personal);
   
   return (
     <>
@@ -57,14 +58,14 @@ export default function UserData(props: any) {
       <BlockArrow
         img={"/assets/img/iconPers/location.svg"}
         label={"Город"}
-        value={personal.city ? personal.city.name : 'город не указан!'}
+        value={personal.city ? personal.city : 'город не указан!'}
         onClick={() => setIsCityModal(!isCityModalOpen)}
       />
       <BlockArrow
         img={"/assets/img/iconPers/swords.svg"}
         label={"Клуб"}
         value={personal.club ? personal.club.name : 'Не состоит!'}
-        onClick={() => personal.city ? setIsClubModalOpen(!isClubModalOpen) : void (0)}
+        onClick={() => personal.club ? setIsClubModalOpen(!isClubModalOpen) : void (0)}
       />
       <BlockArrow
         img={"/assets/img/iconPers/coach.svg"}

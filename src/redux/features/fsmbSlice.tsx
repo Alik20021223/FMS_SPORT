@@ -30,7 +30,8 @@ const initialState: PersonalState = {
         head: 0,
         helmet: 0,
     },
-    token: null
+    token: null,
+    address: null
 }
 
 export const fsmb = createSlice({
@@ -49,6 +50,8 @@ export const fsmb = createSlice({
             state.birth = action.payload.birth
             state.balance = action.payload.balance
             state.family = action.payload.family
+            state.address = action.payload.address
+            state.city = action.payload.city
             // Role reset
             state.roles = action.payload.roles.map((role: Role) => {
                 switch (role.roles) {
