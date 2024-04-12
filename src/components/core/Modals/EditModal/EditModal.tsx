@@ -42,39 +42,7 @@ export default function EditModal({ onClose }: TEditModal) {
     showPrompt()
   }, [address])
 
-  // let updatedUserData: PersonalState = {
-  //   id: 0,
-  //   photo: "",
-  //   age: 0,
-  //   name: "",
-  //   surname: "",
-  //   patronymic: null,
-  //   gender: "",
-  //   birth: null,
-  //   phone: "",
-  //   email: "",
-  //   balance: 0,
-  //   city: null,
-  //   club: null,
-  //   coach: null,
-  //   family: [],
-  //   roles: [],
-  //   anthropometry: {
-  //     weight: 0,
-  //     height: 0,
-  //     shoes: 0,
-  //     armor: 0,
-  //     head: 0,
-  //     helmet: 0
-  //   },
-  //   token: null,
-  //   address: null
-  // }
-  // Object.assign(updatedUserData, userData)
-
   function updateHandler() {
-    // console.log(updatedUserData);
-
     axios.put('/api/profile/edit', {
       address,
       age,
@@ -96,7 +64,9 @@ export default function EditModal({ onClose }: TEditModal) {
   }
 
   function showPrompt() {
-    axios.post('http://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', { query: address }, {
+    axios.post('/suggestions/api/4_1/rs/suggest/address', { 
+      query: address
+    }, {
       headers: {
         'Authorization': 'Token 8ea8222f7a7784ba26078fb524744d19355e1b3c'
       }

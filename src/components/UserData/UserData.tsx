@@ -18,8 +18,7 @@ export default function UserData(props: any) {
   const [isClubModalOpen, setIsClubModalOpen] = useState(false);
 
   const personal = useSelector((state: RootState) => state.personal)
-  console.log(personal);
-  
+
   return (
     <>
       <ProfileBlock className="flex ">

@@ -1,37 +1,61 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import { Select, SelectItem } from "@nextui-org/react";
+import axios from "axios";
+import { useAppSelector } from "@/redux/hooks";
 
 type TCityModal = {
   onClose: () => void;
 };
 
-export const cities = [
-  { id: 1, txt: "New York" },
-  { id: 2, txt: "Los Angeles" },
-  { id: 3, txt: "Chicago" },
-  { id: 4, txt: "Houston" },
-  { id: 5, txt: "Phoenix" },
-];
-
 export default function CityModal({ onClose }: TCityModal) {
   const [modalOpen, setModalOpen] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const userData = useAppSelector(state => state.personal);
+  const [city, setCity] = useState<string>(userData.city || '');
+  const [addressList, setAddressList] = useState<any[]>([]);
+
+  useEffect(() => {
+    showPrompt()
+  }, [city])
+
+  function showPrompt() {
+    axios.post('/suggestions/api/4_1/rs/suggest/address', { 
+      query: city,
+      from_bound: { value: "city" },
+      to_bound: { value: "city" } 
+    }, {
+      headers: {
+        'Authorization': 'Token 8ea8222f7a7784ba26078fb524744d19355e1b3c'
+      }
+    }).then((res: any) => {
+      setAddressList(res.data.suggestions)
+    })
+  }
+
+  function selectAddress(address: any) {
+    setCity(address.data.city) 
+    setAddressList([])
+    setTimeout(() => updateHandler(), 100)
+  }
+
+  function updateHandler() {
+    axios.put('/api/profile/edit', {
+      ...userData,
+      city
+    }, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then(res => {
+      location.reload();
+    })
+  }
 
   const closeModal = () => {
     setModalOpen(false);
     onClose();
   };
-
-  const filteredCities = cities.filter((city) =>
-    city.txt.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleClick = ( city: any) => {
-    console.log(city.txt)
-    onClose();
-  }
 
   return (
     <Modal isOpen={modalOpen} onClose={closeModal}>
@@ -40,17 +64,17 @@ export default function CityModal({ onClose }: TCityModal) {
           type="text"
           placeholder="Search city..."
           className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:border-blue-500"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
         />
         <ul>
-          {filteredCities.map((city, index) => (
+          {addressList.map((city, index) => (
             <li
               key={index}
               className={`py-2 px-2 ${index % 2 === 0 ? "bg-gray-100" : ""} hover:bg-gray-300 cursor-pointer`}
-              onClick={() => handleClick(city)}
+              onClick={e => selectAddress(city)}
             >
-              {city.txt}
+              {city.value}
             </li>
           ))}
         </ul>
