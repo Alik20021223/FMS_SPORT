@@ -59,7 +59,6 @@ export default function AnthropometryData(props: any) {
     dispatch(updateAnthropometry({anthropometry: newAnthropometry}))
   }
 
-
   return (
     <>
       <ProfileBlock className="flex ">
@@ -101,7 +100,7 @@ export default function AnthropometryData(props: any) {
         img={"/assets/img/iconPers/age.svg"}
         value={"Полных лет"}
         label={"Возраст"}
-        rightValue={props?.data?.age ? props?.data?.age : 0}
+        rightValue={props?.data.age ? props?.data.age : 0}
         isEditable={false}
       />
       <BlockArrow

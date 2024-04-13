@@ -47,7 +47,8 @@ export const fsmb = createSlice({
             state.gender = action.payload.gender
             state.phone = action.payload.phone
             state.email = action.payload.email
-            state.birth = action.payload.birth
+            state.age = action.payload.age
+            state.birth = new Date(action.payload.birth)
             state.balance = action.payload.balance
             state.family = action.payload.family
             state.address = action.payload.address
@@ -101,7 +102,13 @@ export const fsmb = createSlice({
                 }).then(res => {
                 })
             })
-        }
+        },
+        setAvatar: (state, action) => {
+            state.photo = action.payload.filename
+        },
+        // removeAvatar: (state, action) => {
+            
+        // }
     }
 })
 
@@ -109,7 +116,8 @@ export const {
     setUser,
     checkToken,
     logout,
-    updateAnthropometry
+    updateAnthropometry,
+    setAvatar
 } = fsmb.actions
 
 export default fsmb.reducer

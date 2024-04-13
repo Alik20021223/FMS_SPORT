@@ -5,6 +5,9 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { Input } from "@nextui-org/input";
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { TableAthletes } from "@/app/(private)/athletes/_components/table";
+import { Club } from "@/app/interfaces/Club";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Container() {
 
@@ -37,37 +40,21 @@ export default function Container() {
     ]
 
 
-    const rows = [
-        {
-            id: 1,
-            number: 1,
-            name: 'Кветунь',
-            league: 'a,c,f',
-            city: 'Москва',
-            nomination: 'Щит и меч'
-        },
-        {
-            id: 2,
-            number: 2,
-            nomination: 'Щит и сабля',
-            name: 'Иван',
-            league: 'a,b,c',
-            city: 'Брянск',
-        },
-        {
-            id: 3,
-            number: 3,
-            nomination: 'Щит и меч, Сабля',
-            name: 'Кветунь',
-            league: 'a,b,d',
-            city: 'Москва',
-        },
-    ]
+    const [rows, setRows] = useState<Club[]>([])
 
+    useEffect(() => {
+        axios.get('/api/clubs', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then((res: any) => {
+            setRows(res.data)
+        })
+    }, [])
 
     const columns = [
         {
-            key: 'number',
+            key: 'id',
             label: '№'
         },
         {

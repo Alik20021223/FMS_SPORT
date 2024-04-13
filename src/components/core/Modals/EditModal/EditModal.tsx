@@ -9,7 +9,7 @@ import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/material.css'
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { PersonalState } from "@/app/interfaces/Person";
-import { setUser } from "@/redux/features/fsmbSlice";
+import { setAvatar, setUser } from "@/redux/features/fsmbSlice";
 import axios from "axios";
 
 type TEditModal = {
@@ -50,7 +50,7 @@ export default function EditModal({ onClose }: TEditModal) {
       surname,
       patronymic,
       gender,
-      birth, 
+      birth,
       phone,
       email,
       city
@@ -64,7 +64,7 @@ export default function EditModal({ onClose }: TEditModal) {
   }
 
   function showPrompt() {
-    axios.post('/suggestions/api/4_1/rs/suggest/address', { 
+    axios.post('/suggestions/api/4_1/rs/suggest/address', {
       query: address
     }, {
       headers: {
@@ -77,15 +77,29 @@ export default function EditModal({ onClose }: TEditModal) {
 
   function selectAddress(address: any) {
     setAddress(address.value)
-    if (address.data.city != null) setCity(address.data.city) 
-    else if(address.data.settlement != null) setCity(address.data.settlement)
+    if (address.data.city != null) setCity(address.data.city)
+    else if (address.data.settlement != null) setCity(address.data.settlement)
     setAddressList([])
+  }
+
+  function updateProfile(e: any) {
+    const formData = new FormData();
+    formData.append('file', e.files[0])
+
+    axios.post('/api/uploadAvatar', formData, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then((res: any) => {
+      dispatch(setAvatar(res.data))
+    })
   }
 
   const closeModal = () => {
     setModalOpen(false);
     onClose();
   };
+
   return (
     <Modal isOpen={modalOpen} onClose={closeModal}>
       <div>
@@ -100,7 +114,7 @@ export default function EditModal({ onClose }: TEditModal) {
                 alt=""
                 className="mr-auto ml-auto"
               />
-              <input type="file" accept="image/*" className="opacity-0 w-0 h-0" />
+              <input onChange={e => updateProfile(e.target)} type="file" accept="image/*" className="opacity-0 w-0 h-0" />
             </label>
             <p className="text-xs text-dark text-center">Изменить</p>
           </div>
@@ -252,8 +266,8 @@ export default function EditModal({ onClose }: TEditModal) {
           <p className="text-base text-dark mt-6">Адрес регистрации</p>
           <AppInput
             value={address}
-            onChange={e => setAddress(e.target.value) }
-            onBlur={e =>  setTimeout(() =>setAddressList([]), 100)}
+            onChange={e => setAddress(e.target.value)}
+            onBlur={e => setTimeout(() => setAddressList([]), 100)}
             placeholder=""
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
           />

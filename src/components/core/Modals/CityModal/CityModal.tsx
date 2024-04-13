@@ -36,7 +36,6 @@ export default function CityModal({ onClose }: TCityModal) {
   function selectAddress(address: any) {
     setCity(address.data.city) 
     setAddressList([])
-    setTimeout(() => updateHandler(), 100)
   }
 
   function updateHandler() {
@@ -78,6 +77,7 @@ export default function CityModal({ onClose }: TCityModal) {
             </li>
           ))}
         </ul>
+        <button onClick={updateHandler} className="w-full bg-dark text-white p-2 rounded-xl mt-2 text-base">Сохранить</button>
       </div>
     </Modal>
   );
