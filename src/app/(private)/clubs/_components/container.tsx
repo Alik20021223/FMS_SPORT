@@ -48,7 +48,7 @@ export default function Container() {
                 'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
             }
         }).then((res: any) => {
-            setRows(res.data)
+            setRows(res.data.clubs)
         })
     }, [])
 
