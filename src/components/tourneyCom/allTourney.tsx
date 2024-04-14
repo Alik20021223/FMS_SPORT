@@ -1,33 +1,9 @@
 'use client'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { AppTable } from '../core/Table/Table';
 import { useRouter } from 'next/navigation';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-
-const rows = [
-    {
-        id: 1,
-        name: "Турнир 3-х",
-        dateAt: "14.01.2023",
-        type: "Сабля",
-        placeAt: "Москва спортзал Херо",
-        price: 1200,
-        action: true,
-        dateEnd: '14.02.2023',
-        apply: false
-    },
-    {
-        id: 2,
-        name: "Турнир 3-х",
-        dateAt: "14.01.2023",
-        type: "Сабля",
-        placeAt: "Москва спортзал Херо",
-        price: 1200,
-        dateEnd: '14.02.2023',
-        action: true,
-        apply: true
-    },
-];
+import axios from 'axios';
 
 const columns = [
     {
@@ -35,15 +11,15 @@ const columns = [
         label: "Турнир",
     },
     {
-        key: "dateAt",
+        key: "dateFrom",
         label: "Дата",
     },
     {
-        key: "type",
+        key: "nomination",
         label: "Номинация",
     },
     {
-        key: "placeAt",
+        key: "address",
         label: "Место поведение",
     },
     {
@@ -51,7 +27,7 @@ const columns = [
         label: "Стоимость",
     },
     {
-        key: "dateEnd",
+        key: "applicationDeadline",
         label: "Прием заявок до",
     },
     {
@@ -104,6 +80,30 @@ const Action: FC<{ el: any }> = ({ el }) => {
 };
 
 export const AllTourney = () => {
+    const [rows, setRows] = useState<any[]>([])
+
+    useEffect(() => {
+        axios.get('/api/tournaments', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then((res: any) => {
+            let tournoments = res.data.data
+            tournoments = tournoments.map((tournoment: any) => {
+                let dateFrom = new Date(tournoment.dateFrom) 
+                tournoment.dateFrom = dateFrom.getDate() + '.' + (dateFrom.getMonth() + 1).toString().padStart(2, '0') + '.' + dateFrom.getFullYear()
+                
+                let dateTo = new Date(tournoment.dateTo) 
+                tournoment.dateTo = dateTo.getDate() + '.' + (dateTo.getMonth() + 1).toString().padStart(2, '0') + '.' + dateTo.getFullYear()
+                
+                let appDeadline = new Date(tournoment.applicationDeadline) 
+                tournoment.applicationDeadline = appDeadline.getDate() + '.' + (appDeadline.getMonth() + 1).toString().padStart(2, '0') + '.' + appDeadline.getFullYear()
+                return tournoment
+            })
+            setRows(tournoments)
+            
+        })
+    }, [])
     return (
         <div className='w-full mt-4'>
             <AppTable cols={columns} rows={rows} onAction={(item) => <Action el={item} />} />

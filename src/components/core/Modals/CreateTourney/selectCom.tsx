@@ -11,11 +11,12 @@ interface Option {
 
 interface FormFieldProps {
   label: string;
-  type: 'text' | 'select';
+  type: 'number' | 'text' | 'select';
   options?: Option[];
-  selectedKeys?: string | string[];
+  selectedKeys?: number | number[] | string | string[] | any;
   onChange?: (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
-  onSelectionChange?: (keys: Selection) => any,
+  onSelectionChange?: (keys: Selection) => any;
+  value?: any
 }
 
 const btnClass = {
@@ -34,7 +35,7 @@ const btnClass = {
   ],
 };
 
-const FormField: React.FC<FormFieldProps> = ({ label, type, options = [], selectedKeys = [], onChange, onSelectionChange }) => {
+const FormField: React.FC<FormFieldProps> = ({ label, type, options = [], selectedKeys = [], onChange, onSelectionChange, value }) => {
 
   const handleSelectChange = (keys: Selection) => {
     if (onSelectionChange) {
@@ -48,8 +49,9 @@ const FormField: React.FC<FormFieldProps> = ({ label, type, options = [], select
         {label}
         {type === 'select' ? (
           <Select
+            aria-label={label}
             disableSelectorIconRotation
-            selectionMode={label == 'Номинация' ? 'multiple' : 'single'}
+            selectionMode={label == 'Лига' ? 'multiple' : 'single'}
             selectorIcon={<ExpandMore />}
             className={`mt-4 ${(label == 'Возраст' || label == 'Вес' || label == 'Пол') && 'w-[150px] ml-2 mt-0'}`}
             selectedKeys={selectedKeys}
@@ -65,9 +67,11 @@ const FormField: React.FC<FormFieldProps> = ({ label, type, options = [], select
           </Select>
         ) : (
           <Input
+          aria-label={label}
             classNames={{ inputWrapper: ['bg-white', 'border', 'h-[45px]', 'min-h-0'] }}
             className='mt-4'
             type={type}
+            value={value}
             onChange={onChange}
           />
         )}

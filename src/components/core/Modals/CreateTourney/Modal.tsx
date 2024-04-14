@@ -31,27 +31,30 @@ type TAddModal = {
 
 export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal) => {
     const [formData, setFormData] = useState({
-        selectedCity: '',
-        isTypeTourney: '',
-        isAge: '',
-        isSex: '',
-        isWeight: '',
-        isPlaceTourney: '',
-        isTypeFight: '',
-        isNomination: [],
-        isName: '',
-        isPrice: '',
-        isTimeStart: '',
-        isTimeRegEnd: '',
-        isTimeEnd: '',
-        isAssistent: '',
-        isLeague: '',
+        name: "",
+        type: "",
+        city: "",
+        gridView: "",
+        address: "",
+        dateFrom: "",
+        dateTo: "",
+        applicationDeadline: "",
+        price: 0.00,
+        gender: "",
+        nomination: [],
+        ageFrom: 0,
+        ageTo: 0,
+        league: [],
+        secretary: 0,
+        weight: ""
     });
 
     const disable = Object.values(formData).every((value) => !!value);
 
     const handleChange = (key: string, value: string | Selection) => {
         setFormData({ ...formData, [key]: value });
+        console.log(formData);
+
     };
 
     return (
@@ -66,58 +69,85 @@ export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal)
                                     <FormField
                                         label='Название'
                                         type='text'
-                                        selectedKeys={[formData.isName]}
-                                        onChange={(e) => handleChange('isName', e.target.value)}
+                                        value={[formData.name]}
+                                        onChange={(e) => handleChange('name', e.target.value)}
                                     />
                                     <FormField
                                         label='Тип'
                                         type='select'
                                         options={typeTourney}
-                                        selectedKeys={[formData.isTypeTourney]}
-                                        onChange={(e) => handleChange('isTypeTourney', e.target.value)}
+                                        selectedKeys={[formData.type]}
+                                        onChange={(e) => handleChange('type', e.target.value)}
                                     />
                                     <FormField
                                         label='Вид сетки'
                                         type='select'
                                         options={typeFight}
-                                        selectedKeys={[formData.isTypeFight]}
-                                        onChange={(e) => handleChange('isTypeFight', e.target.value)}
+                                        selectedKeys={[formData.gridView]}
+                                        onChange={(e) => handleChange('gridView', e.target.value)}
                                     />
                                     <FormField
                                         label='Город'
-                                        type='select'
-                                        options={townFilter}
-                                        selectedKeys={[formData.selectedCity]}
-                                        onChange={(e) => handleChange('selectedCity', e.target.value)}
+                                        type='text'
+                                        value={[formData.city]}
+                                        onChange={(e) => handleChange('city', e.target.value)}
                                     />
                                     <FormField
                                         label='Место проведение'
-                                        type='select'
-                                        options={fightPlace}
-                                        selectedKeys={[formData.isPlaceTourney]}
-                                        onChange={(e) => handleChange('isPlaceTourney', e.target.value)}
+                                        type='text'
+                                        value={[formData.address]}
+                                        onChange={(e) => handleChange('address', e.target.value)}
                                     />
-                                    <FormField label='Лига' type='select' options={leagueFilter} selectedKeys={[formData.isLeague]} onChange={(e) => handleChange('isLeague', e.target.value)} />
+                                    <FormField
+                                        label='Лига'
+                                        type='select'
+                                        options={leagueFilter}
+                                        selectedKeys={[formData.league]}
+                                        onChange={(e) => handleChange('league', e.target.value)}
+                                    />
                                     <div className='flex justify-between w-full'>
-                                        <FormField label='Возраст' type='select' options={ageFilter} selectedKeys={[formData.isAge]} onChange={(e) => handleChange('isAge', e.target.value)} />
-                                        <FormField label='Пол' type='select' options={sexFilter} selectedKeys={[formData.isSex]} onChange={(e) => handleChange('isSex', e.target.value)} />
-                                        <FormField label='Вес' type='select' options={weightFight} selectedKeys={[formData.isWeight]} onChange={(e) => handleChange('isWeight', e.target.value)} />
+                                        <FormField
+                                            label='Возраст'
+                                            type='select'
+                                            options={ageFilter}
+                                            selectedKeys={[formData.ageFrom]}
+                                            onChange={(e) => handleChange('ageFrom', e.target.value)}
+                                        />
+                                        <FormField
+                                            label='Пол'
+                                            type='select'
+                                            options={sexFilter}
+                                            selectedKeys={[formData.gender]}
+                                            onChange={(e) => handleChange('gender', e.target.value)}
+                                        />
+                                        <FormField
+                                            label='Вес'
+                                            type='select'
+                                            options={weightFight}
+                                            selectedKeys={[formData.weight]}
+                                            onChange={(e) => handleChange('weight', e.target.value)}
+                                        />
                                     </div>
                                     <FormField
                                         label='Номинация'
-                                        selectedKeys={formData.isNomination}
-                                        onSelectionChange={(values) => handleChange('isNomination', values)}
                                         type='select'
+                                        selectedKeys={[formData.nomination]}
                                         options={nominationFilter}
+                                        onSelectionChange={(values) => handleChange('nomination ', values)}
                                     />
-                                    <FormField label='Стоимость' type='text' selectedKeys={[formData.isPrice]} onChange={(e) => handleChange('isPrice', e.target.value)} />
+                                    <FormField
+                                        label='Стоимость'
+                                        type='number'
+                                        value={formData.price}
+                                        onChange={(e) => handleChange('price', e.target.value)}
+                                    />
                                     <h1 className='pt-3'>Даты проведения</h1>
                                     <div className='flex items-start justify-between w-full'>
-                                        <FormField label='с' type='text' selectedKeys={[formData.isTimeStart]} onChange={(e) => handleChange('isTimeStart', e.target.value)} />
-                                        <FormField label='по' type='text' selectedKeys={[formData.isTimeEnd]} onChange={(e) => handleChange('isTimeEnd', e.target.value)} />
-                                        <FormField label='дата окончания заявок' type='text' selectedKeys={[formData.isTimeRegEnd]} onChange={(e) => handleChange('isTimeRegEnd', e.target.value)} />
+                                        <FormField label='с' type='text' value={formData.dateFrom} onChange={(e) => handleChange('dateFrom', e.target.value)} />
+                                        <FormField label='по' type='text' value={formData.dateTo} onChange={(e) => handleChange('dateTo', e.target.value)} />
+                                        <FormField label='дата окончания заявок' type='text' value={formData.applicationDeadline} onChange={(e) => handleChange('applicationDeadline', e.target.value)} />
                                     </div>
-                                    <FormField label='Секретарь' type='text' selectedKeys={[formData.isAssistent]} onChange={(e) => handleChange('isAssistent', e.target.value)} />
+                                    <FormField label='Секретарь' type='text' value={formData.secretary} onChange={(e) => handleChange('secretary', e.target.value)} />
                                 </div>
                                 <span className='border-b-4 border-[#D9D9D9] w-full left-[-30px]'></span>
                                 <div className='px-6 mt-4'>
