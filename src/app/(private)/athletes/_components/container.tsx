@@ -7,12 +7,24 @@ import { Button, Select, SelectItem } from "@nextui-org/react";
 import { TableAthletes } from "./table";
 import { useDisclosure } from '@nextui-org/react';
 import { AthletesModal } from "@/components/core/Modals/AthltetesModal/page";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 export default function Container() {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [rows, setRows] = useState<any[]>([])
 
+    useEffect(() => {
+        axios.get('/api/user-sprotsmens', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then((res: any) => {
+            setRows(res.data.sportsmens)
+        })
+    }, [])
 
     const InputWrapper = {
         inputWrapper: ['bg-white', 'border', 'h-[45px]', 'min-h-[45px]'],
@@ -34,46 +46,9 @@ export default function Container() {
         ],
     };
 
-
-    const rows = [
-        {
-            id: 1,
-            number: 1,
-            surname: 'Иванов',
-            name: 'Иван',
-            secondName: 'Иванович',
-            city: 'Москва',
-            age: '32',
-            club: 'Кветунь',
-            rate: '96'
-        },
-        {
-            id: 2,
-            number: 2,
-            surname: 'Иванов',
-            name: 'Иван',
-            secondName: 'Иванович',
-            city: 'Брянск',
-            age: '32',
-            club: 'Кветунь',
-            rate: '96'
-        },
-        {
-            id: 3,
-            number: 3,
-            surname: 'Иванов',
-            name: 'Иван',
-            secondName: 'Иванович',
-            city: 'Москва',
-            age: '32',
-            club: 'Кветунь',
-            rate: '96'
-        },
-    ]
-
     const columns = [
         {
-            key: 'number',
+            key: 'id',
             label: '№'
         },
         {
@@ -85,7 +60,7 @@ export default function Container() {
             label: 'Имя'
         },
         {
-            key: 'secondName',
+            key: 'patronymic',
             label: 'Отчество'
         },
         {
