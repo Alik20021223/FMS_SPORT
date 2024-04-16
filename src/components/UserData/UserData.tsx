@@ -66,11 +66,11 @@ export default function UserData(props: any) {
         value={personal.club ? personal.club.name : 'Не состоит!'}
         onClick={() => personal.club ? setIsClubModalOpen(!isClubModalOpen) : void (0)}
       />
-      <BlockArrow
+      {/* <BlockArrow
         img={"/assets/img/iconPers/coach.svg"}
         label={"Статус: переход в клуб ...      Ожидание"}
         className="w-[534px] ml-auto"
-      />
+      /> */}
       <BlockArrow
         img={"/assets/img/iconPers/coach.svg"}
         label={"Тренер"}

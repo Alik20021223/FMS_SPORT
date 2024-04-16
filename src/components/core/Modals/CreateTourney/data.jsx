@@ -1,52 +1,41 @@
 export const typeTourney = [
-  { id: 1, label: "Городской", value: 'typeTourney' },
-  { id: 2, label: "Региональный", value: 'typeTourney' },
+  { label: "Городской", value: 'city' },
+  { label: "Региональный", value: 'regional' },
 ];
 
 export const typeFight = [
-  { id: 1, label: "Каждый с каждым", value: 'typeFight' },
-  { id: 2, label: "Каждый с каждым", value: 'typeFight' },
-];
-
-export const fightPlace = [
-  { id: 1, label: "Москва общий зал", value: 'fightPlace' },
-  { id: 2, label: "Москва общий зал", value: 'fightPlace' },
+  { label: "Каждый с каждым", value: 'e2e' },
+  { label: "На выбыванием", value: 'knock-out' },
 ];
 
 export const ageFilter = [
-  { id: 1, label: "12", value: 'ageFilter' },
-  { id: 2, label: "14", value: 'ageFilter' },
-  { id: 3, label: "16", value: 'ageFilter' },
-  { id: 4, label: "18", value: 'ageFilter' },
+  { label: "12", value: '12' },
+  { label: "14", value: '14' },
+  { label: "16", value: '16' },
+  { label: "18", value: '18' },
 ];
 
 export const sexFilter = [
-  { id: 1, label: "Мальчик", value: 'ageFilter' },
-  { id: 2, label: "Девочки", value: 'ageFilter' },
-  { id: 3, label: "Смешанный", value: 'ageFilter' },
+  { label: "Мальчик", value: 'male' },
+  { label: "Девочки", value: 'female' },
+  // { label: "Смешанный", value: 'uni' },
 ];
 
 export const leagueFilter = [
-  { id: 1, label: "A", value: 'leagueFilter' },
-  { id: 2, label: "B", value: 'leagueFilter' },
-  { id: 3, label: "C", value: 'leagueFilter' },
+  { label: "A", value: '1' },
+  { label: "B", value: '2' },
+  { label: "C", value: '3' },
 ];
 
 export const nominationFilter = [
-  { id: 1, label: "Щит и меч", value: 'nominationFilter1' },
-  { id: 2, label: "Сабля баклер", value: 'nominationFilter2' },
-  { id: 3, label: "Рапира", value: 'nominationFilter3' },
-  { id: 4, label: "Номинация 4", value: 'nominationFilter4' },
-];
-
-export const townFilter = [
-  { id: 1, label: "Москва", value: 'townFilter' },
-  { id: 2, label: "Казань", value: 'townFilter' },
-  { id: 3, label: "Брянск", value: 'townFilter' },
+  { label: "Щит и меч", value: 1 },
+  { label: "Сабля баклер", value: 2 },
+  { label: "Рапира", value: 3 },
+  { label: "Номинация 4", value: 4 },
 ];
 
 export const weightFight = [
-  { id: 1, label: "Тяжелый вес", value: 'weightFight' },
-  { id: 2, label: "Средний вес", value: 'weightFight'  },
-  { id: 3, label: "Легкий вес", value: 'weightFight'  },
+  { label: "Тяжелый вес", value: 'heavy' },
+  // { label: "Средний вес", value: ''  },
+  { label: "Легкий вес", value: 'light'  },
 ];

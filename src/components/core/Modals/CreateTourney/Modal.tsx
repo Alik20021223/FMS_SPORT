@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { Modal, ModalContent, ModalBody, Button, Selection } from '@nextui-org/react';
+import { Modal, ModalContent, ModalBody, Button, Selection, Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import FormField from './selectCom';
 import {
     typeTourney,
     ageFilter,
     sexFilter,
-    townFilter,
-    fightPlace,
     nominationFilter,
     leagueFilter,
     typeFight,
     weightFight,
 } from './data';
+import axios from 'axios';
 
 type TDataModal = {
     id: number;
@@ -30,32 +29,84 @@ type TAddModal = {
 };
 
 export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal) => {
-    const [formData, setFormData] = useState({
-        name: "",
-        type: "",
-        city: "",
-        gridView: "",
-        address: "",
-        dateFrom: "",
-        dateTo: "",
-        applicationDeadline: "",
-        price: 0.00,
-        gender: "",
-        nomination: [],
-        ageFrom: 0,
-        ageTo: 0,
-        league: [],
-        secretary: 0,
-        weight: ""
-    });
+    const disable = true;
 
-    const disable = Object.values(formData).every((value) => !!value);
+    const [name, setName] = useState<string>();
+    const [type, setType] = useState(new Set([]));
+    const [city, setCity] = useState<any>("");
+    const [gridView, setGridView] = useState(new Set([]));
+    const [address, setAddress] = useState<any>("");
+    const [dateFrom, setDateFrom] = useState<Date>();
+    const [dateTo, setDateTo] = useState<Date>();
+    const [applicationDeadline, setApplicationDeadline] = useState<Date>();
+    const [price, setPrice] = useState<string>();
+    const [gender, setGender] = useState(new Set([]));
+    const [nomination, setNomination] = useState(new Set([]));
+    const [ageFrom, setAgeFrom] = useState(new Set([]));
+    const [ageTo, setAgeTo] = useState<number>(1);
+    const [league, setLeague] = useState(new Set([]));
+    const [secretary, setSecretary] = useState<string>();
+    const [weight, setWeight] = useState(new Set([]));
 
-    const handleChange = (key: string, value: string | Selection) => {
-        setFormData({ ...formData, [key]: value });
-        console.log(formData);
+    const [cityList, setCityList] = useState<any[]>([]);
+    const [addressList, setAddressList] = useState<any[]>([]);
 
-    };
+    function showPrompt(value: string) {
+
+        axios.post('/suggestions/api/4_1/rs/suggest/address', {
+            query: value,
+            from_bound: { value: "city" },
+            to_bound: { value: "city" }
+        }, {
+            headers: {
+                'Authorization': 'Token 8ea8222f7a7784ba26078fb524744d19355e1b3c'
+            }
+        }).then((res: any) => {
+            setCityList(res.data.suggestions)
+        })
+
+    }
+
+    function showPromptAddress(value: string) {
+
+        axios.post('/suggestions/api/4_1/rs/suggest/address', {
+            query: value
+        }, {
+            headers: {
+                'Authorization': 'Token 8ea8222f7a7784ba26078fb524744d19355e1b3c'
+            }
+        }).then((res: any) => {
+            setAddressList(res.data.suggestions)
+        })
+
+    }
+
+    function submitTournament() {
+        axios.post('/api/tournament/new', {
+            name: name, 
+            type: Array.from(type)[0], 
+            city: city, 
+            gridView: Array.from(gridView)[0], 
+            address: address, 
+            dateFrom: dateFrom, 
+            dateTo: dateTo, 
+            applicationDeadline: applicationDeadline, 
+            price: parseInt(price || '0'), 
+            gender: Array.from(gender)[0], 
+            nomination: parseInt(Array.from(nomination)[0]), 
+            ageFrom: parseInt(Array.from(ageFrom)[0]), 
+            ageTo: ageTo, 
+            league: Array.from(league), 
+            secretary: parseInt(secretary || '0'), 
+            weightCat: Array.from(weight)[0]
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then(res => {
+            window.location.reload()
+        })
+    }
 
     return (
         <div>
@@ -69,89 +120,96 @@ export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal)
                                     <FormField
                                         label='Название'
                                         type='text'
-                                        value={[formData.name]}
-                                        onChange={(e) => handleChange('name', e.target.value)}
+                                        value={name}
+                                        onChange={setName}
                                     />
                                     <FormField
                                         label='Тип'
                                         type='select'
                                         options={typeTourney}
-                                        selectedKeys={[formData.type]}
-                                        onChange={(e) => handleChange('type', e.target.value)}
+                                        selectedKeys={type}
+                                        onChange={setType}
                                     />
                                     <FormField
                                         label='Вид сетки'
                                         type='select'
                                         options={typeFight}
-                                        selectedKeys={[formData.gridView]}
-                                        onChange={(e) => handleChange('gridView', e.target.value)}
+                                        selectedKeys={gridView}
+                                        onChange={setGridView}
                                     />
-                                    <FormField
+                                    <Autocomplete
                                         label='Город'
-                                        type='text'
-                                        value={[formData.city]}
-                                        onChange={(e) => handleChange('city', e.target.value)}
-                                    />
-                                    <FormField
+                                        items={cityList}
+                                        selectedKey={city}
+                                        onSelectionChange={setCity}
+                                        onInputChange={showPrompt}
+                                        labelPlacement='outside'>
+                                        {(item) => <AutocompleteItem key={item.data.city}>{item.value}</AutocompleteItem>}
+                                    </Autocomplete>
+                                    <Autocomplete
                                         label='Место проведение'
-                                        type='text'
-                                        value={[formData.address]}
-                                        onChange={(e) => handleChange('address', e.target.value)}
-                                    />
+                                        items={addressList}
+                                        selectedKey={address}
+                                        onSelectionChange={setAddress}
+                                        onInputChange={showPromptAddress}
+                                        labelPlacement='outside'>
+                                        {(item) => <AutocompleteItem key={item.value}>{item.value}</AutocompleteItem>}
+                                    </Autocomplete>
                                     <FormField
                                         label='Лига'
                                         type='select'
                                         options={leagueFilter}
-                                        selectedKeys={[formData.league]}
-                                        onChange={(e) => handleChange('league', e.target.value)}
+                                        selectedKeys={league}
+                                        onChange={setLeague}
                                     />
                                     <div className='flex justify-between w-full'>
                                         <FormField
                                             label='Возраст'
                                             type='select'
                                             options={ageFilter}
-                                            selectedKeys={[formData.ageFrom]}
-                                            onChange={(e) => handleChange('ageFrom', e.target.value)}
+                                            selectedKeys={ageFrom}
+                                            onChange={setAgeFrom}
                                         />
                                         <FormField
                                             label='Пол'
                                             type='select'
                                             options={sexFilter}
-                                            selectedKeys={[formData.gender]}
-                                            onChange={(e) => handleChange('gender', e.target.value)}
+                                            selectedKeys={gender}
+                                            onChange={setGender}
                                         />
                                         <FormField
                                             label='Вес'
                                             type='select'
                                             options={weightFight}
-                                            selectedKeys={[formData.weight]}
-                                            onChange={(e) => handleChange('weight', e.target.value)}
+                                            selectedKeys={weight}
+                                            onChange={setWeight}
                                         />
                                     </div>
                                     <FormField
                                         label='Номинация'
                                         type='select'
-                                        selectedKeys={[formData.nomination]}
+                                        selectedKeys={nomination}
                                         options={nominationFilter}
-                                        onSelectionChange={(values) => handleChange('nomination ', values)}
+                                        onChange={setNomination}
                                     />
                                     <FormField
                                         label='Стоимость'
                                         type='number'
-                                        value={formData.price}
-                                        onChange={(e) => handleChange('price', e.target.value)}
+                                        value={price}
+                                        onChange={setPrice}
                                     />
                                     <h1 className='pt-3'>Даты проведения</h1>
                                     <div className='flex items-start justify-between w-full'>
-                                        <FormField label='с' type='text' value={formData.dateFrom} onChange={(e) => handleChange('dateFrom', e.target.value)} />
-                                        <FormField label='по' type='text' value={formData.dateTo} onChange={(e) => handleChange('dateTo', e.target.value)} />
-                                        <FormField label='дата окончания заявок' type='text' value={formData.applicationDeadline} onChange={(e) => handleChange('applicationDeadline', e.target.value)} />
+                                        <FormField label='с' type='date' value={dateFrom} onChange={setDateFrom} />
+                                        <FormField label='по' type='date' value={dateTo} onChange={setDateTo} />
+                                        <FormField label='дата окончания заявок' type='date' value={applicationDeadline} onChange={setApplicationDeadline} />
                                     </div>
-                                    <FormField label='Секретарь' type='text' value={formData.secretary} onChange={(e) => handleChange('secretary', e.target.value)} />
+                                    <FormField label='Секретарь' type='text' value={secretary} onChange={setSecretary} />
                                 </div>
                                 <span className='border-b-4 border-[#D9D9D9] w-full left-[-30px]'></span>
                                 <div className='px-6 mt-4'>
                                     <Button
+                                        onPress={submitTournament}
                                         disabled={disable}
                                         className={`${disable ? ' text-white  bg-prime hover:bg-prime-800' : 'bg-[#F5F5F5] text-[#C0C0C0]'} py-[10px] font-semibold rounded-xl w-full`}
                                     >
