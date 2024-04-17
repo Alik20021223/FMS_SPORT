@@ -4,6 +4,7 @@ import { AppTable } from '../core/Table/Table';
 import { useRouter } from 'next/navigation';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import axios from 'axios';
+import { error } from 'console';
 
 const columns = [
     {
@@ -61,6 +62,12 @@ const Action: FC<{ el: any }> = ({ el }) => {
             }
         }).then(res => {
             onOpen()
+        }, (err) => {
+            onClose()
+            alert(err.message)
+        }).catch((err) => {
+            onClose()
+            alert(err.message)
         })
     }
 
