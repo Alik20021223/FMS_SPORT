@@ -45,16 +45,28 @@ const Action: FC<{ el: any }> = ({ el }) => {
     const handlePay = () => {
         onClose();
         console.log('pay now')
+        location.reload()
     }
 
     const handleLate = () => {
         onClose();
         console.log('pay later')
+        location.reload()
+    }
+
+    function handleApplication() {
+        axios.post('/api/application/new', {tournamentId: el.id}, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then(res => {
+            onOpen()
+        })
     }
 
     return (
         <>
-            <span onClick={() => onOpen()} className={` font-bold cursor-pointer ${isApply ? 'text-default' : 'text-prime'}`}>Подать</span>
+            <span onClick={() => handleApplication()} className={` font-bold cursor-pointer ${isApply ? 'text-default' : 'text-prime'}`}>Подать</span>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalContent>
                     {(onClose) => (

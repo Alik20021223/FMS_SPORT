@@ -120,11 +120,11 @@ export default function Container() {
 
     return (
         <>
-            <div className="flex flex-wrap max-w-[1200px]">
+            <div className="flex flex-wrap w-full">
                 <h4 className="section__heading w-[100%] font-bold text-xl">Клубы</h4>
                 <form className="w-full mt-3" onSubmit={handleSubmit}>
-                    <div className="w-[100%] justify-between flex">
-                        <div className="w-[46%]">
+                    <div className="w-full justify-between flex">
+                        <div className="w-full">
                             <label aria-label="Название">
                                 <p className="mb-2">Название</p>
                                 <Input type="text" className="w-full" placeholder="Кветунь" classNames={InputWrapper} />
@@ -195,7 +195,7 @@ export default function Container() {
                         <Button type="submit" className="py-[10px] w-[70%] bg-prime text-white">Поиск клуба</Button>
                     </div>
                 </form>
-                <div className="w-[100%] mt-9">
+                <div className="w-full mt-9">
                     <TableAthletes cols={columns} rows={rows} />
                 </div>
             </div>

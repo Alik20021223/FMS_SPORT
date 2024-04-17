@@ -1,8 +1,9 @@
 'use client'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { AppTable } from "@/components/core/Table/Table";
 import CloseCom from "@/components/core/icons/iconClose";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import axios from 'axios';
 
 type TRow = {
     id: number;
@@ -14,6 +15,7 @@ type TRow = {
     price: number;
     action: boolean;
     pay: boolean;
+    status: string;
 };
 
 export type TColumn = {
@@ -21,30 +23,6 @@ export type TColumn = {
     label: string;
 };
 
-const rows: TRow[] = [
-    {
-        id: 1,
-        name: "Турнир 3-х",
-        dateAt: "14.01.2023",
-        dateEnd: '14.02.2023',
-        type: "Сабля",
-        placeAt: "Москва спортзал Херо",
-        price: 1200,
-        action: true,
-        pay: false
-    },
-    {
-        id: 2,
-        name: "Турнир 3-х",
-        dateAt: "14.01.2023",
-        dateEnd: '14.02.2023',
-        type: "Сабля",
-        placeAt: "Москва спортзал Херо",
-        price: 1200,
-        action: true,
-        pay: true
-    },
-];
 
 const columns: TColumn[] = [
     {
@@ -52,15 +30,15 @@ const columns: TColumn[] = [
         label: "Турнир",
     },
     {
-        key: "dateAt",
+        key: "dateFrom",
         label: "Дата",
     },
     {
-        key: "type",
+        key: "nomination",
         label: "Номинация",
     },
     {
-        key: "placeAt",
+        key: "address",
         label: "Место проведение",
     },
     {
@@ -74,7 +52,7 @@ const columns: TColumn[] = [
 ];
 
 const Action: FC<{ item: TRow }> = ({ item }) => {
-    const [isPay, setPay] = useState(item.pay);
+    const [isPay, setPay] = useState(item.status !== 'pending');
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleClose = () => {
@@ -129,6 +107,36 @@ const Action: FC<{ item: TRow }> = ({ item }) => {
 };
 
 const AppliedTournaments = () => {
+    const [rows, setRows] = useState<any[]>([])
+
+    useEffect(() => {
+        axios.get('/api/my-applications', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then((res: any) => {
+            let applications = res.data.data
+            
+            applications = applications.map((application: any) => {
+                let dateFrom = new Date(application.tournament.dateFrom) 
+                application.dateFrom = dateFrom.getDate() + '.' + (dateFrom.getMonth() + 1).toString().padStart(2, '0') + '.' + dateFrom.getFullYear()
+                
+                let dateTo = new Date(application.tournament.dateTo) 
+                application.dateTo = dateTo.getDate() + '.' + (dateTo.getMonth() + 1).toString().padStart(2, '0') + '.' + dateTo.getFullYear()
+                
+                let appDeadline = new Date(application.tournament.applicationDeadline) 
+                application.applicationDeadline = appDeadline.getDate() + '.' + (appDeadline.getMonth() + 1).toString().padStart(2, '0') + '.' + appDeadline.getFullYear()
+
+                application.name = application.tournament.name
+                application.address = application.tournament.address
+                application.nomination = application.tournament.nomination
+                application.price = application.tournament.price
+                return application
+            })
+            setRows(applications)
+        })
+    }, [])
+
     return (
         <div className='mt-9 w-full'>
             <p className='mb-5'>Поданные заявки</p>

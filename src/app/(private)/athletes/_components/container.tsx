@@ -93,9 +93,9 @@ export default function Container() {
 
     return (
         <>
-            <div className="flex flex-wrap max-w-[1200px]">
-                <h4 className="section__heading w-[100%] font-bold text-xl [&>tr]:first:rounded-lg">Спортсмены</h4>
-                <form className="w-[60%] mt-3" onSubmit={handleSubmit}>
+            <div className="flex flex-wrap w-full">
+                <h4 className="section__heading w-full font-bold text-xl [&>tr]:first:rounded-lg">Спортсмены</h4>
+                <form className="w-full mt-3" onSubmit={handleSubmit}>
                     <div className="w-full justify-between flex">
                         <div className="w-[46%]">
                             <label aria-label="FIO">
@@ -163,7 +163,7 @@ export default function Container() {
                         <Button type="submit" className="py-[10px] w-[70%] bg-prime text-white">Поиск</Button>
                     </div>
                 </form>
-                <div className="mt-9">
+                <div className="mt-9 w-full">
                     <TableAthletes cols={columns} rows={rows} onClickRow={handleOpenModal} />
                 </div>
             </div>
