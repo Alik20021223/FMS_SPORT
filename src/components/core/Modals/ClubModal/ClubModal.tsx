@@ -1,7 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import Image from "next/image";
+import { useAppSelector } from "@/redux/hooks";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import axios from "axios";
 
 
 type ClubModalProps = {
@@ -10,48 +13,81 @@ type ClubModalProps = {
 
 export default function ClubModal({ onClose }: ClubModalProps) {
   const [modalOpen, setModalOpen] = useState(true);
-  const club = {
-    name: "Кветунь",
-    city: "Брянск",
-    logo: "/assets/img/club-logo.png",
-    address: "г. Брянск, ул. 22 съезда КПСС, д. 74",
-    since: "22 октября 2018 года",
-    accreditation: "Есть акредитация",
-    phone: "+7 (953) 283-94-63",
-    email: "kvetun_fsmb@fsmb.ru",
-    owner: "Павлов Юрий Михайлович",
-    description: `Суббота, Воскресенье
-       Группа 6-8 лет  с 12.00 до 13.00 
-       Группа 12+ с 14.00 до 15.00
-        Спорт-клуб Ямма `,
-  };
+  const userData = useAppSelector(state => state.personal);
+  const [club, setClub] = useState<any>();
+  const [clubList, setClubList] = useState<any[]>([]);
+  const [selectedClub, setSelectedClub] = useState<any>({})
+
+  useEffect(() => {
+    axios.get('/api/clubs', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then(res => {
+      setClubList(res.data?.clubs)
+    })
+  }, [])
+
+  useEffect(()=> {
+    setSelectedClub(clubList.find((item: any) => item.id.toString() === club))
+  }, [club])
+
+  function updateHandler() {
+    axios.post('/api/club/'+ club +'/enter', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then(res => {
+      location.reload();
+    })
+  }
+
+
+
   return (
     <Modal isOpen={modalOpen} onClose={onClose}>
-      <div>
-        <div className="flex  items-center mb-4">
-          <Image
-            src={club.logo}
-            width={100}
-            height={100}
-            alt=""
-            className="rounded-full"
-          />
-          <div className="ml-8">
-            <p className="text-base text-dark">Клуб "{club.name}"</p>
-            <p className="text-sm text-dark">г. {club.city}</p>
-          </div>
-        </div>
-        <Info label="Адрес" value={club.address} />
-        <Info label="Дата основания" value={club.since} />
-        <Info label="Наличие акредитации" value={club.accreditation} />
-        <Info label="Телефон" value={club.phone} />
-        <Info label="Почта" value={club.email} />
-        <hr className="h-1 bg-gray-500" />
+      <Autocomplete
+        label='Клуб'
+        defaultItems={clubList}
+        selectedKey={club}
+        onSelectionChange={setClub}
+        labelPlacement='outside'>
+        {(item) => <AutocompleteItem key={item.id}>{item.name}</AutocompleteItem>}
+      </Autocomplete>
+      {club
+        ? (
+          <div>
 
-        <Info label="Глава клуба" value={club.owner} />
-        <Info label="Описание" value={club.description} />
-        <hr className="h-1 bg-gray-500" />
-      </div>
+            <div className="flex  items-center mb-4">
+              <Image
+                // src={selectedClub.logo}
+                src={"/assets/img/club-logo.png"}
+                width={100}
+                height={100}
+                alt=""
+                className="rounded-full"
+              />
+              <div className="ml-8">
+                <p className="text-base text-dark">Клуб "{selectedClub?.name}"</p>
+                <p className="text-sm text-dark">г. {selectedClub?.city}</p>
+              </div>
+            </div>
+            <Info label="Адрес" value={selectedClub?.address} />
+            {/* <Info label="Дата основания" value={selectedClub.since} /> */}
+            <Info label="Наличие акредитации" value={selectedClub?.accreditation} />
+            <Info label="Телефон" value={selectedClub?.phone} />
+            <Info label="Почта" value={selectedClub?.email} />
+            <hr className="h-1 bg-gray-500" />
+
+            <Info label="Глава клуба" value={selectedClub?.owner.name} />
+            <Info label="Описание" value={selectedClub?.description} />
+            <hr className="h-1 bg-gray-500" />
+            <button onClick={updateHandler} className="w-full bg-dark text-white p-2 rounded-xl mt-2 text-base">Сохранить</button>
+          </div>
+        )
+        : (<p className="mt-5">Вы не состаите в клубе!</p>)
+      }
+
     </Modal>
   );
 }

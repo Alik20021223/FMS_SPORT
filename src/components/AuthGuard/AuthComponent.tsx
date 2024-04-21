@@ -33,7 +33,7 @@ export const AuthWrapper = ({ children }: Props) => {
             }).then((res: any) => {
                 dispatch(setUser(res.data));
                 setIsLoading(false)
-            })
+            }, (error) => error.code === "ERR_BAD_REQUEST" ? dispatch(logout()) : null)
 
         }
     }, [token, push]);

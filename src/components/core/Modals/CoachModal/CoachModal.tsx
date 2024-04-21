@@ -1,63 +1,57 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
+import axios from "axios";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 type TCoachModal = {
   onClose: () => void;
 };
 
-const coaches = [
-  "John Doe",
-  "Jane Smith",
-  "David Johnson",
-  "Emily Brown",
-  "Michael Wilson",
-  "Sarah Martinez",
-  "Robert Anderson",
-  "Jennifer Taylor",
-  "William Thomas",
-  "Linda Garcia",
-];
 
 export default function CoachModal({ onClose }: TCoachModal) {
   const [modalOpen, setModalOpen] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [coaches, setCoaches] = useState<any[]>([]) 
+  const [coache, setCoache] = useState<any>() 
 
   const closeModal = () => {
     setModalOpen(false);
     onClose();
   };
 
-  const filteredCoaches = coaches.filter((coach) =>
-    coach.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    axios.get('/api/user-sprotsmens', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then(res => {
+      setCoaches(res.data?.sportsmens)
+    })
+  }, [])
 
-  const handleClick = ( coach: any) => {
-    console.log(coach)
-    onClose();
+  function updateHandler() {
+    // axios.post('/api/club/'+ club +'/enter', {}, {
+    //   headers: {
+    //     'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+    //   }
+    // }).then(res => {
+      location.reload();
+    // })
   }
 
   return (
     <Modal isOpen={modalOpen} onClose={closeModal}>
+      <Autocomplete
+        label='Тренер'
+        defaultItems={coaches}
+        selectedKey={coache}
+        onSelectionChange={setCoache}
+        labelPlacement='outside'>
+        {(item) => <AutocompleteItem key={item.id}>{`${item.surname} ${item.name} ${item.patronymic} `}</AutocompleteItem>}
+      </Autocomplete>
+      
       <div className="p-4 max-h-80 overflow-y-auto">
-        <input
-          type="text"
-          placeholder="Search coach..."
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:border-blue-500"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <ul>
-          {filteredCoaches.map((coach, index) => (
-            <li
-              key={index}
-              className={`py-2 px-2 ${index % 2 === 0 ? "bg-gray-100" : ""} hover:bg-gray-300 cursor-pointer`}
-              onClick={() => handleClick(coach)}
-            >
-              {coach}
-            </li>
-          ))}
-        </ul>
+      <button onClick={updateHandler} className="w-full bg-dark text-white p-2 rounded-xl mt-2 text-base">Сохранить</button>
       </div>
     </Modal>
   );

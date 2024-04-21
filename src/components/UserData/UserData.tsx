@@ -52,7 +52,7 @@ export default function UserData(props: any) {
         <Role disable={true} role={"Родитель"} date={"10.11.2009"} />
       </div> */}
       <div className="mt-4 grid grid-cols-4 gap-4 justify-between">
-        {personal.roles.map((role, idx) => (<Role key={idx} disable={false} role={role?.roles} />))}
+        {personal.user_roles.map((role, idx) => (<Role key={idx} disable={false} role={role?.roles} />))}
       </div>
       <BlockArrow
         img={"/assets/img/iconPers/location.svg"}
@@ -63,8 +63,9 @@ export default function UserData(props: any) {
       <BlockArrow
         img={"/assets/img/iconPers/swords.svg"}
         label={"Клуб"}
-        value={personal.club ? personal.club.name : 'Не состоит!'}
-        onClick={() => personal.club ? setIsClubModalOpen(!isClubModalOpen) : void (0)}
+        value={personal?.club ? personal.club.name : 'Не состоит!'}
+        // onClick={() => personal.club ? setIsClubModalOpen(!isClubModalOpen) : void (0)}
+        onClick={() => setIsClubModalOpen(!isClubModalOpen) }
       />
       {/* <BlockArrow
         img={"/assets/img/iconPers/coach.svg"}

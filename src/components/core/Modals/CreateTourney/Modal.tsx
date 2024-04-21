@@ -156,36 +156,6 @@ export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal)
                                         {(item) => <AutocompleteItem key={item.value}>{item.value}</AutocompleteItem>}
                                     </Autocomplete>
                                     <FormField
-                                        label='Лига'
-                                        type='select'
-                                        options={leagueFilter}
-                                        selectedKeys={league}
-                                        onChange={setLeague}
-                                    />
-                                    <div className='flex justify-between w-full'>
-                                        <FormField
-                                            label='Возраст'
-                                            type='select'
-                                            options={ageFilter}
-                                            selectedKeys={ageFrom}
-                                            onChange={setAgeFrom}
-                                        />
-                                        <FormField
-                                            label='Пол'
-                                            type='select'
-                                            options={sexFilter}
-                                            selectedKeys={gender}
-                                            onChange={setGender}
-                                        />
-                                        <FormField
-                                            label='Вес'
-                                            type='select'
-                                            options={weightFight}
-                                            selectedKeys={weight}
-                                            onChange={setWeight}
-                                        />
-                                    </div>
-                                    <FormField
                                         label='Номинация'
                                         type='select'
                                         selectedKeys={nomination}

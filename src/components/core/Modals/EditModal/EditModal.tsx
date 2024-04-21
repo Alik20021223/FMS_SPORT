@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import Image from "next/image";
 import { AppInput } from "../../Input/AppInput";
-import { Checkbox, Radio, RadioGroup } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, Checkbox, Radio, RadioGroup } from "@nextui-org/react";
 import { AppButton } from "../../Button/AppButton";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/material.css'
@@ -23,24 +23,18 @@ export default function EditModal({ onClose }: TEditModal) {
   const dispatch = useAppDispatch()
   const userData = useAppSelector(state => state.personal)
 
-  const [address, setAddress] = useState<string>(userData.address || '')
+  const [address, setAddress] = useState<any>(userData.address)
   const [age, setAge] = useState<number>(userData.age)
   const [name, setName] = useState<string>(userData.name)
   const [surname, setSurname] = useState<string>(userData.surname)
   const [patronymic, setPatronymic] = useState<string>(userData.patronymic || '')
   const [gender, setGender] = useState<string>(userData.gender || '')
-  const [birth, setBirth] = useState<Date>(userData.birth || new Date())
+  const [birth, setBirth] = useState<any>(userData.birth)
   const [phone, setPhone] = useState<string>(userData.phone)
   const [email, setEmail] = useState<string>(userData.email)
   const [city, setCity] = useState<string>(userData.city || '')
-  // const [, set] = useState<string>('')
 
-  const [addressList, setAddressList] = useState([])
-
-
-  useEffect(() => {
-    showPrompt()
-  }, [address])
+  const [addressList, setAddressList] = useState<any[]>([{ value: userData.address }])
 
   function updateHandler() {
     axios.put('/api/profile/edit', {
@@ -63,9 +57,9 @@ export default function EditModal({ onClose }: TEditModal) {
     })
   }
 
-  function showPrompt() {
+  function showPrompt(value: string) {
     axios.post('/suggestions/api/4_1/rs/suggest/address', {
-      query: address
+      query: value
     }, {
       headers: {
         'Authorization': 'Token 8ea8222f7a7784ba26078fb524744d19355e1b3c'
@@ -77,8 +71,6 @@ export default function EditModal({ onClose }: TEditModal) {
 
   function selectAddress(address: any) {
     setAddress(address.value)
-    if (address.data.city != null) setCity(address.data.city)
-    else if (address.data.settlement != null) setCity(address.data.settlement)
     setAddressList([])
   }
 
@@ -91,6 +83,16 @@ export default function EditModal({ onClose }: TEditModal) {
         'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
       }
     }).then((res: any) => {
+      dispatch(setAvatar(res.data))
+    })
+  }
+
+  function removeProfile() {
+    axios.put('/api/profile/remove-avatar', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+      }
+    }).then(res => {
       dispatch(setAvatar(res.data))
     })
   }
@@ -126,7 +128,7 @@ export default function EditModal({ onClose }: TEditModal) {
             className="rounded-full"
           />
           <div>
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center">
+            <div onClick={removeProfile} className="w-20 h-20 bg-gray-100 rounded-full flex justify-center items-center cursor-pointer">
               <Image
                 src={"/assets/img/iconPers/delete.svg"}
                 width={22}
@@ -199,8 +201,8 @@ export default function EditModal({ onClose }: TEditModal) {
         <div>
           <p className="text-base text-dark mt-6">Дата рождения</p>
           <AppInput
-            value={birth.getFullYear() + '-' + (birth.getMonth() + 1).toString().padStart(2, '0') + '-' + birth.getDate()}
-            onChange={e => setBirth(new Date(e.target.value))}
+            value={birth}
+            onChange={e => setBirth(e.target.value)}
             type="date"
             placeholder="12.04.1995"
             style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
@@ -263,26 +265,15 @@ export default function EditModal({ onClose }: TEditModal) {
         </div>
 
         <div className="relative">
-          <p className="text-base text-dark mt-6">Адрес регистрации</p>
-          <AppInput
-            value={address}
-            onChange={e => setAddress(e.target.value)}
-            onBlur={e => setTimeout(() => setAddressList([]), 100)}
-            placeholder=""
-            style={{ border: "1px solid #C0C0C0", marginTop: 12 }}
-          />
-          {addressList.length > 0
-            ? (
-              <ul className="promtps absolute bottom-[100%] bg-white w-full shadow-sm pt-2 pb-2 rounded">
-                {addressList
-                  ? addressList.map((item: any, idx: number) => (
-                    <li key={idx} className="cursor-pointer hover:bg-slate-400 cursor-pointer pl-5 pr-5" onClick={e => selectAddress(item)}>{item.value}</li>
-                  ))
-                  : ''}
-              </ul>
-            )
-            : (<></>)
-          }
+          <Autocomplete
+            label='Адрес регистрации'
+            items={addressList}
+            selectedKey={address}
+            onSelectionChange={setAddress}
+            onInputChange={showPrompt}
+            labelPlacement='outside'>
+            {(item) => <AutocompleteItem key={item.value}>{item.value}</AutocompleteItem>}
+          </Autocomplete>
 
         </div>
 

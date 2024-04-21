@@ -50,11 +50,11 @@ const FamilyApp = (props: any) => {
                     <EditModal onClose={() => setIsEditModalOpen(!isEditModalOpen)} />
                 )}
                 <div className='mt-[33px]'>
-                    <FAppDetails data={props?.data.family} />
+                    <FAppDetails data={props?.data.relatives} />
                 </div>
             </div>
             <div className='flex justify-end'>
-                <AppButton onClick={handleClick} className='px-[151px]' color='prime' size='sm' >
+                <AppButton onClick={handleClick} className='px-[10%]' color='prime' size='sm' >
                     Добавить
                 </AppButton>
                 <FamilyModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />

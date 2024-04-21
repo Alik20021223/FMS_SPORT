@@ -11,7 +11,7 @@ export interface PersonalState {
     surname: string,
     patronymic: string | null,
     gender: string,
-    birth: Date | null,
+    birth: string | Date | null,
     phone: string,
     email: string,
     balance: number,
@@ -19,8 +19,8 @@ export interface PersonalState {
     address: string | null,
     club: Club | null,
     coach: Person | null,
-    family: Person[],
-    roles: Role[],
+    relatives: Person[],
+    user_roles: Role[],
     anthropometry: Anthropometry,
     token: null | string
 }

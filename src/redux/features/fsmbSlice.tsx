@@ -20,8 +20,8 @@ const initialState: PersonalState = {
     city: null,
     club: null,
     coach: null,
-    family: [],
-    roles: [],
+    relatives: [],
+    user_roles: [],
     anthropometry: {
         weight: 0,
         height: 0,
@@ -48,13 +48,14 @@ export const fsmb = createSlice({
             state.phone = action.payload.phone
             state.email = action.payload.email
             state.age = action.payload.age
-            state.birth = new Date(action.payload.birth)
+            state.birth = action.payload.birth
             state.balance = action.payload.balance
-            state.family = action.payload.family
+            state.relatives = action.payload.relatives
             state.address = action.payload.address
             state.city = action.payload.city
+            state.club = action.payload.club
             // Role reset
-            state.roles = action.payload.roles.map((role: Role) => {
+            state.user_roles = action.payload.user_roles.map((role: Role) => {
                 switch (role.roles) {
                     case "admin":
                         role.roles = "Админ"

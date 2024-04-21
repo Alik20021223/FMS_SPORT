@@ -13,11 +13,7 @@ export default function CityModal({ onClose }: TCityModal) {
   const [modalOpen, setModalOpen] = useState(true);
   const userData = useAppSelector(state => state.personal);
   const [city, setCity] = useState<any>(userData.city || '');
-  const [cityList, setCityList] = useState<any[]>([]);
-
-  // useEffect(() => {
-  //   showPrompt()
-  // }, [city])
+  const [cityList, setCityList] = useState<any[]>([{ data: { city: userData.city }, value: userData.city }]);
 
   function showPrompt(value: string) {
     axios.post('/suggestions/api/4_1/rs/suggest/address', {
@@ -32,11 +28,6 @@ export default function CityModal({ onClose }: TCityModal) {
       setCityList(res.data.suggestions)
     })
   }
-
-  // function selectAddress(address: any) {
-  //   setCity(address.data.city) 
-  //   setAddressList([])
-  // }
 
   function updateHandler() {
     axios.put('/api/profile/edit', {
