@@ -48,7 +48,16 @@ export default function Container() {
                 'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
             }
         }).then((res: any) => {
-            setRows(res.data.clubs)
+            let clubs = res.data.clubs
+            
+            clubs = clubs.map((item: any)=> {
+                item.leagues = item.leagues.map((lg: any) => lg.name).join(', ')
+                item.nominations = item.nominations.map((nm: any) => nm.name).join(', ')
+                return item
+            })
+            console.log(clubs);
+            
+            setRows(clubs)
         })
     }, [])
 
@@ -66,11 +75,11 @@ export default function Container() {
             label: 'Город'
         },
         {
-            key: 'league',
+            key: 'leagues',
             label: 'Лига'
         },
         {
-            key: 'nomination',
+            key: 'nominations',
             label: 'Номинация'
         },
     ]

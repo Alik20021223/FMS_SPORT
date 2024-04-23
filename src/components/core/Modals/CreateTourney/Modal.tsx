@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalBody, Button, Selection, Autocomplete, AutocompleteItem } from '@nextui-org/react';
 import FormField from './selectCom';
 import {
@@ -42,14 +42,21 @@ export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal)
     const [price, setPrice] = useState<string>();
     const [gender, setGender] = useState(new Set([]));
     const [nomination, setNomination] = useState(new Set([]));
-    const [ageFrom, setAgeFrom] = useState(new Set([]));
-    const [ageTo, setAgeTo] = useState<number>(1);
-    const [league, setLeague] = useState(new Set([]));
-    const [secretary, setSecretary] = useState<string>();
-    const [weight, setWeight] = useState(new Set([]));
+    const [secretary, setSecretary] = useState<any>();
+    const [userList, setUserList] = useState<any[]>([]);
 
     const [cityList, setCityList] = useState<any[]>([]);
     const [addressList, setAddressList] = useState<any[]>([]);
+
+    useEffect(() => {
+        axios.get('/api/user-sprotsmens', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
+            }
+        }).then((res: any) => {
+            setUserList(res.data.sportsmens)
+        })
+    }, [])
 
     function showPrompt(value: string) {
 
@@ -83,22 +90,18 @@ export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal)
 
     function submitTournament() {
         axios.post('/api/tournament/new', {
-            name: name, 
-            type: Array.from(type)[0], 
-            city: city, 
-            gridView: Array.from(gridView)[0], 
-            address: address, 
-            dateFrom: dateFrom, 
-            dateTo: dateTo, 
-            applicationDeadline: applicationDeadline, 
-            price: parseInt(price || '0'), 
-            gender: Array.from(gender)[0], 
-            nomination: parseInt(Array.from(nomination)[0]), 
-            ageFrom: parseInt(Array.from(ageFrom)[0]), 
-            ageTo: ageTo, 
-            league: Array.from(league), 
-            secretary: parseInt(secretary || '0'), 
-            weightCat: Array.from(weight)[0]
+            name: name,
+            type: Array.from(type)[0],
+            city: city,
+            gridView: Array.from(gridView)[0],
+            address: address,
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            applicationDeadline: applicationDeadline,
+            price: parseInt(price || '0'),
+            gender: Array.from(gender)[0],
+            nomination: parseInt(Array.from(nomination)[0]),
+            secretary: parseInt(secretary || '0'),
         }, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
@@ -174,7 +177,14 @@ export const CreateTourneyModal = ({ isOpen, onOpen, onClose, data }: TAddModal)
                                         <FormField label='по' type='date' value={dateTo} onChange={setDateTo} />
                                         <FormField label='дата окончания заявок' type='date' value={applicationDeadline} onChange={setApplicationDeadline} />
                                     </div>
-                                    <FormField label='Секретарь' type='text' value={secretary} onChange={setSecretary} />
+                                    <Autocomplete
+                                        label='ФИО'
+                                        defaultItems={userList}
+                                        selectedKey={secretary}
+                                        onSelectionChange={setSecretary}
+                                        labelPlacement='outside'>
+                                        {(item) => <AutocompleteItem key={item.id}>{`${item.surname} ${item.name} ${item.patronymic}`}</AutocompleteItem>}
+                                    </Autocomplete>
                                 </div>
                                 <span className='border-b-4 border-[#D9D9D9] w-full left-[-30px]'></span>
                                 <div className='px-6 mt-4'>
