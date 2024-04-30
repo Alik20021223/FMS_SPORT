@@ -9,10 +9,12 @@ import ClubModal from "@/components/core/Modals/ClubModal/ClubModal";
 import BlockArrow from "@/components/core/BlockArrow/BlockArrow";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
+import LeagueModal from "../core/Modals/LeagueModal/LeagueModal";
 
 
 export default function UserData(props: any) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isLeagueModalOpen, setIsLeagueModal] = useState(false);
   const [isCityModalOpen, setIsCityModal] = useState(false);
   const [isCoachModalOpen, setIsCoachModalOpen] = useState(false);
   const [isClubModalOpen, setIsClubModalOpen] = useState(false);
@@ -56,6 +58,12 @@ export default function UserData(props: any) {
       </div>
       <BlockArrow
         img={"/assets/img/iconPers/location.svg"}
+        label={"Лига"}
+        value={personal.league ? personal.league.name : 'Лига не указан!'}
+        onClick={() => setIsLeagueModal(!isLeagueModalOpen)}
+      />
+      <BlockArrow
+        img={"/assets/img/iconPers/location.svg"}
         label={"Город"}
         value={personal.city ? personal.city : 'город не указан!'}
         onClick={() => setIsCityModal(!isCityModalOpen)}
@@ -90,6 +98,9 @@ export default function UserData(props: any) {
       )}
       {isCityModalOpen && (
         <CityModal onClose={() => setIsCityModal(false)} />
+      )}
+      {isLeagueModalOpen && (
+        <LeagueModal onClose={() => setIsLeagueModal(false)} />
       )}
       {isCoachModalOpen && (
         <CoachModal onClose={() => setIsCoachModalOpen(false)} />

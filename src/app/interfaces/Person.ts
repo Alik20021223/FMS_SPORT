@@ -1,6 +1,7 @@
 import { Anthropometry } from "./Anthropometry";
 import { City } from "./City";
 import { Club } from "./Club";
+import { League } from "./League";
 import { Role } from "./Role";
 
 export interface PersonalState {
@@ -18,6 +19,7 @@ export interface PersonalState {
     city: string | null,
     address: string | null,
     club: Club | null,
+    league: League | null,
     coach: Person | null,
     relatives: Person[],
     user_roles: Role[],

@@ -31,7 +31,8 @@ const initialState: PersonalState = {
         helmet: 0,
     },
     token: null,
-    address: null
+    address: null,
+    league: null
 }
 
 export const fsmb = createSlice({
@@ -53,6 +54,7 @@ export const fsmb = createSlice({
             state.relatives = action.payload.relatives
             state.address = action.payload.address
             state.city = action.payload.city
+            state.league = action.payload.league
             state.club = action.payload.club
             // Role reset
             state.user_roles = action.payload.user_roles.map((role: Role) => {

@@ -55,7 +55,6 @@ export default function Container() {
                 item.nominations = item.nominations.map((nm: any) => nm.name).join(', ')
                 return item
             })
-            console.log(clubs);
             
             setRows(clubs)
         })

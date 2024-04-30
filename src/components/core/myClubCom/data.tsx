@@ -92,19 +92,23 @@ export const myClub = {
 
 export const columns: TColumn[] = [
     {
-        key: "count",
+        key: "id",
         label: "№",
     },
     {
-        key: "fio",
+        key: "full_name",
         label: "ФИО",
     },
     {
-        key: "dateBirth",
+        key: "birth",
         label: "Дата Рождения",
     },
     {
         key: "status",
         label: "Статус",
+    },
+    {
+        key: "role",
+        label: "Роль",
     },
 ];
