@@ -55,7 +55,7 @@ export const AppTable: FC<TAppTable> = ({ cols, rows, onAction, tableClass, onCl
           {(item) => (
             <TableRow
               key={item?.id || item.indexId}
-              className={`${item.status === 'Заявка' ? 'text-red-500' : ''} ${item.change === true && 'cursor-pointer'}`}
+              className={`${item.status === 'Заявка' ? 'text-red-500' : ''} ${(item.change === true || onClickRow) && 'cursor-pointer'}`}
             >
               {(columnKey) => (
                 <TableCell onClick={() => onClickRow && onClickRow(item)}>

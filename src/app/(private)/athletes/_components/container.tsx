@@ -167,7 +167,7 @@ export default function Container() {
                     <TableAthletes cols={columns} rows={rows} onClickRow={handleOpenModal} />
                 </div>
             </div>
-            <AthletesModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+            <AthletesModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} club={true}/>
         </>
     )
 }

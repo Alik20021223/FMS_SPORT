@@ -15,10 +15,14 @@ type TAddModal = {
     isOpen: boolean;
     onOpen?: () => void;
     onClose: () => void;
+    club: boolean;
 };
 
 
-export const AthletesModal = ({ isOpen, item, onOpen, onClose }: TAddModal) => {
+export const AthletesModal = ({ isOpen, item, onOpen, onClose, club }: TAddModal) => {
+
+    const tabsChange = club ? tabs : tabs.slice(0, 4)
+
     return (
         <Modal
             backdrop="blur"
@@ -45,13 +49,13 @@ export const AthletesModal = ({ isOpen, item, onOpen, onClose }: TAddModal) => {
                             <p className="text-base text-dark font-medium">{new Date(user.person.createdAt).toLocaleDateString()}</p>
                         </div>
                     </ProfileBlock>
-                    <TabPage tabs={tabs} components={
+                    <TabPage tabs={tabsChange} components={
                         [
                             <UserCom props={user.userData} />,
                             <AntropCom anthropometry={user.anthropometry} />,
                             <FamilyCom data={user.family} />,
                             <AchievCom data={user.achievement.data} dataTour={user.achievement.dataTour} />,
-                            <ClubCom />
+                            club && <ClubCom />
                         ]
                     }
                     />

@@ -90,6 +90,34 @@ export const myClub = {
     ]
 }
 
+export const role = [
+    {
+        value: 'Cпортсмен',
+        label: 'Cпортсмен',
+    },
+    {
+        value: 'Тренер',
+        label: 'Тренер',
+    },
+    {
+        value: 'Секретарь',
+        label: 'Секретарь',
+    },
+    {
+        value: 'Казначей',
+        label: 'Казначей',
+    },
+    {
+        value: 'Судья',
+        label: 'Судья',
+    },
+    {
+        value: 'Родитель',
+        label: 'Родитель',
+    },
+
+]
+
 export const columns: TColumn[] = [
     {
         key: "id",
