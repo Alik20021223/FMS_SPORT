@@ -68,7 +68,6 @@ const CreateTourney = () => {
                 return tournoment
             })
             setRows(tournoments)
-            
         })
     }, [])
 
