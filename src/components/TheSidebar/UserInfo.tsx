@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { PersonalState } from '@/app/interfaces/Person';
 import { useAppSelector } from '@/redux/hooks';
 import { useEffect, useState } from 'react';
+import { link } from 'fs';
 
 export type TUserInfoData = {
   fullname: string;
@@ -26,9 +27,10 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
     { name: 'Турниры', link: '/tournaments' },
     { name: 'Настройки', link: '/setting' },
     { name: 'Обратная связь', link: '/feedback' },
+    { name: 'Выйти', link: 'login' },
   ])
   const [userMenu, setUserMenu] = useState<any[]>([
-    { name: 'Персональные данные', link: '/profile', isActive: true},
+    { name: 'Персональные данные', link: '/profile', isActive: true },
     { name: 'Антропометрия', link: '/profile/anthropometry', isActive: true },
     { name: 'Семья', link: '/profile/family', isActive: true },
     { name: 'Достижения', link: '/profile/achievements', isActive: true },
@@ -36,7 +38,7 @@ export const UserInfo = ({ data }: TUserInfoProps) => {
   ]);
 
   useEffect(() => {
-    
+
   }, [])
 
   const redirectToPay = () => {

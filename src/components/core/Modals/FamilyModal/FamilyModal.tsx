@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import Image from 'next/image';
-import { ExpandMore } from '@mui/icons-material';
 import { Button } from '@nextui-org/react';
 
 import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
@@ -201,7 +200,7 @@ export const FamilyModal = ({ isOpen, onOpen, onClose }: TAddModal) => {
                                 }
 
                                 <div className='px-6 mt-4'>
-                                    <Button onPress={() => {addRelative(); onClose(); location.reload()}} disabled={disable} className={`${disable ? ' text-white  bg-primary hover:bg-primary-800' : 'bg-[#F5F5F5] text-[#C0C0C0]'} py-[10px] font-semibold rounded-xl w-full cursor-pointer`}>
+                                    <Button onPress={() => {addRelative(); onClose(); location.reload()}} disabled={disable} className={`${disable ? 'text-white bg-primary hover:bg-primary-800' : 'bg-[#F5F5F5]  text-red'} py-[10px] font-semibold rounded-xl w-full cursor-pointer`}>
                                         Добавить
                                     </Button>
                                 </div>
