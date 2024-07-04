@@ -32,6 +32,7 @@ export default function CityModal({ onClose }: TCityModal) {
   function updateHandler() {
     axios.put('/api/profile/edit', {
       ...userData,
+      league: userData.league?.id,
       city
     }, {
       headers: {
