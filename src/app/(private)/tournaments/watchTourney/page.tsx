@@ -6,7 +6,7 @@ import { Participant, TableTourney } from '@/components/core/TableTourneyWatch/T
 import ReactFlow, { useNodesState, useEdgesState, addEdge, Node, Edge } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-const initialNodes: Node[] = [
+const initialNodes: any[] = [
     {
         id: 'horizontal-1',
         sourcePosition: 'right',
