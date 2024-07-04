@@ -47,7 +47,9 @@ export const ModalApply = ({ isOpen, item, onOpen, onClose }: ModalApplyApp) => 
             <ModalContent style={{ maxHeight: 'calc(100vh - 20px)', overflowY: 'auto' }}>
                 <ModalBody>
                     <div className='mt-10 space-y-5'>
-                        <Button onClick={() => onOpenData()}>{item?.full_name}</Button>
+                        <Button 
+                        // onClick={() => onOpenData()}
+                        >{item?.full_name}</Button>
                         <AthletesModal isOpen={isOpenData} onOpen={onOpenData} onClose={onCloseData} club={false} />
                         <div className='flex justify-between'>
                             <Button onClick={() => handleApply(true)} color='primary'>Принять</Button>
