@@ -5,8 +5,6 @@ import { rows, columns } from './data';
 
 const tableClassName = {
     thead: ["text-default-500", 'border-[#C0C0C0]', "rounded-[20px]", ],
-
-
 }
 
 export const ClubTable = () => {

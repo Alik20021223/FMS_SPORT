@@ -23,7 +23,7 @@ export default function Login() {
     const [rePassword, setRePassword] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
 
-    const [isClick, setClick] = useState<number>(0);
+    const [isClick, setClick] = useState<boolean>(false);
 
     useEffect(() => {
         if (localStorage.getItem(btoa('token'))) {
@@ -52,7 +52,7 @@ export default function Login() {
                     router.push('/profile')
                 });
             });
-            setClick(1)
+            setClick(true)
         } else alert('Пароли не совпадают!')
     };
 
@@ -124,7 +124,7 @@ export default function Login() {
 
 
                             <button className="bg-[#155783] py-[11px] uppercase rounded-full font-semibold text-white lowercase">ЗАРЕГИСТРИРОВАТЬСЯ</button>
-                            <div className={`flex flex-col justify-start items-start ${isClick && `mt-[42px]`}`}>
+                            {isClick && <div className={`flex flex-col justify-start items-start ${isClick && `mt-[42px]`}`}>
                                 <div className="mb-6 flex ">
                                     <input className="mr-2 w-[17px] h-[17px]" type="checkbox" name="" id="politic-conf" />
                                     <label className="text-xs" htmlFor="politic-conf">Я принимаю условия
@@ -139,7 +139,7 @@ export default function Login() {
                                         данного сервиса
                                     </label>
                                 </div>
-                            </div>
+                            </div>}
                         </div>
                     </form>
                 </div>

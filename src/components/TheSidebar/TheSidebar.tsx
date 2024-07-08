@@ -19,7 +19,7 @@ export const TheSidebar = () => {
             alt="avatar"
             width={44}
             height={67}
-            className="object-cover inline-block"
+            className="object-cover inline-block text-red-500"
           />
           <p className="text-primry">
             ФЕДЕРАЦИЯ <br />

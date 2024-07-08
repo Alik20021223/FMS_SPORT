@@ -41,24 +41,41 @@ export default function Container() {
 
 
     const [rows, setRows] = useState<Club[]>([])
+    const [formState, setFormState] = useState<any>({})
+    const [filterRows, setFilterRows] = useState<Club[]>([])
 
-    useEffect(() => {
-        axios.get('/api/clubs', {
+    const fetchClubs = () => {
+        return axios.get('/api/clubs', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
             }
         }).then((res: any) => {
-            let clubs = res.data.clubs
-            
-            clubs = clubs.map((item: any)=> {
-                item.leagues = item.leagues.map((lg: any) => lg.name).join(', ')
-                item.nominations = item.nominations.map((nm: any) => nm.name).join(', ')
-                return item
-            })
-            
-            setRows(clubs)
-        })
-    }, [])
+            let clubs = res.data.clubs;
+
+            clubs = clubs.map((item: any) => {
+                item.leagues = item.leagues.map((lg: any) => lg.name).join(', ');
+                item.nominations = item.nominations.map((nm: any) => nm.membersTitle).join(', ');
+                return item;
+            });
+
+            return clubs;
+        }).catch((error: any) => {
+            console.error('Error fetching clubs:', error);
+            return [];
+        });
+    }
+
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchClubs();
+            setRows(data);
+        };
+
+        fetchData();
+    }, []);с
 
     const columns = [
         {
@@ -122,9 +139,69 @@ export default function Container() {
         },
     ]
 
-    const handleSubmit = (e: any) => {
+    const handleSelectionChange = (value: any, nameValue: string) => {
+
+        setFormState((prevState: any) => ({ ...prevState, [nameValue]: value.currentKey }));
+    };
+
+
+
+    useEffect(() => {
+        console.log(formState)
+    }, [formState])
+
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        const clubs = await fetchClubs();
+
+        let filterRows = clubs.filter((item: any) => {
+            // Проверка имени клуба
+            if (formState.name && item.name.toLowerCase() !== formState.name.toLowerCase()) {
+                return false;
+            }
+
+            // Проверка номинации
+            if (formState.nomination) {
+                const hasNomination = item.nominations && Array.isArray(item.nominations) &&
+                    item.nominations.some(nomination => nomination.membersTitle === formState.nomination);
+                if (!hasNomination) {
+                    return false;
+                }
+            }
+
+            // Проверка лиги
+            if (formState.league) {
+                const hasLeague = item.leagues && Array.isArray(item.leagues) &&
+                    item.leagues.some(league => league.name === formState.league);
+                if (!hasLeague) {
+                    return false;
+                }
+            }
+
+            // Проверка города
+            if (formState.town && item.city !== formState.town) {
+                return false;
+            }
+
+            // Проверка возраста
+            if (formState.age) {
+                const ownerAge = item.owner && item.owner.age;
+                if (ownerAge !== formState.age) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        console.log(filterRows);
+        setRows(filterRows);
     }
+
+
+
+
 
     return (
         <>
@@ -135,7 +212,7 @@ export default function Container() {
                         <div className="w-full">
                             <label aria-label="Название">
                                 <p className="mb-2">Название</p>
-                                <Input type="text" className="w-full" placeholder="Кветунь" classNames={InputWrapper} />
+                                <Input onChange={(e) => setFormState((prevState: any) => ({ ...prevState, name: e.target.value }))} type="text" className="w-full" placeholder="Кветунь" classNames={InputWrapper} />
                             </label>
                         </div>
                         <div className="w-[46%]">
@@ -144,13 +221,15 @@ export default function Container() {
                                 <Select
                                     placeholder="Москва"
                                     classNames={btnClass}
+                                    onSelectionChange={(value: any) => handleSelectionChange(value, "town")}
                                 >
                                     {townFilter.map((item) => (
-                                        <SelectItem key={item.id} value={item.town}>
+                                        <SelectItem key={item.town} value={item.id}>
                                             {item.town}
                                         </SelectItem>
                                     ))}
                                 </Select>
+
                             </label>
                         </div>
                     </div>
@@ -159,11 +238,12 @@ export default function Container() {
                             <p className="mb-2">Лига</p>
                             <Select
                                 placeholder="Лиги"
-                                selectionMode="multiple"
+                                // selectionMode="multiple"
                                 classNames={btnClass}
+                                onSelectionChange={(value: any) => handleSelectionChange(value, "league")}
                             >
                                 {LeagueFilter.map((item) => (
-                                    <SelectItem key={item.id} value={item.txt}>
+                                    <SelectItem key={item.txt} value={item.id}>
                                         {item.txt}
                                     </SelectItem>
                                 ))}
@@ -176,10 +256,11 @@ export default function Container() {
                             className="w-[100%] mt-2"
                             placeholder="12-14"
                             classNames={btnClass}
+                            onSelectionChange={(value: any) => handleSelectionChange(value, "age")}
                         >
-                            {nominationFilter.map((item) => (
-                                <SelectItem key={item.id} value={item.nomination}>
-                                    {item.nomination}
+                            {ageFilter.map((item) => (
+                                <SelectItem key={item.value} value={item.id}>
+                                    {item.value}
                                 </SelectItem>
                             ))}
                         </Select>
@@ -190,9 +271,10 @@ export default function Container() {
                             <Select
                                 placeholder="Сабля"
                                 classNames={btnClass}
+                                onSelectionChange={(value: any) => handleSelectionChange(value, "nomination")}
                             >
                                 {nominationFilter.map((item) => (
-                                    <SelectItem key={item.id} value={item.nomination}>
+                                    <SelectItem key={item.nomination} value={item.id}>
                                         {item.nomination}
                                     </SelectItem>
                                 ))}
@@ -202,11 +284,11 @@ export default function Container() {
                     <div className="w-[80%] mt-8 flex justify-end">
                         <Button type="submit" className="py-[10px] w-[70%] bg-prime text-white">Поиск клуба</Button>
                     </div>
-                </form>
+                </form >
                 <div className="w-full mt-9">
                     <TableAthletes cols={columns} rows={rows} />
                 </div>
-            </div>
+            </div >
         </>
     )
 }

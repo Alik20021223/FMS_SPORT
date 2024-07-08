@@ -22,6 +22,7 @@ export default function Container() {
                 'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
             }
         }).then((res: any) => {
+            console.log(res.data.sportsmens);
             setRows(res.data.sportsmens)
         })
     }, [])
@@ -88,6 +89,8 @@ export default function Container() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        console.log('nigga');
+        
     }
 
 
