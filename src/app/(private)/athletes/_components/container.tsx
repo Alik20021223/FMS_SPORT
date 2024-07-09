@@ -15,17 +15,31 @@ export default function Container() {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [rows, setRows] = useState<any[]>([])
+    const [formState, setFormState] = useState<any>({})
+    const [filterRows, setFilterRows] = useState<any[]>([])
 
-    useEffect(() => {
-        axios.get('/api/user-sprotsmens', {
+    const fetchAthletes = () => {
+        return axios.get('/api/user-sprotsmens', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem(btoa('token'))
             }
         }).then((res: any) => {
-            console.log(res.data.sportsmens);
-            setRows(res.data.sportsmens)
-        })
-    }, [])
+            return res.data.sportsmens;
+        }).catch((error: any) => {
+            console.error('Error fetching athletes:', error);
+            return [];
+        });
+    }
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchAthletes();
+            setRows(data);
+        };
+    
+        fetchData();
+    }, []);
+    
 
     const InputWrapper = {
         inputWrapper: ['bg-white', 'border', 'h-[45px]', 'min-h-[45px]'],
@@ -82,16 +96,83 @@ export default function Container() {
         },
     ]
 
+
+
     const handleOpenModal = (item: any) => {
         console.log(item)
         onOpen();
     }
 
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        console.log('nigga');
-        
+    const handleSelectionChange = (value: any, nameValue: string) => {
+        setFormState((prevState: any) => ({ ...prevState, [nameValue]: value.currentKey }));
+    };
+
+    const handleChange = (value: string, field: string) => {
+        if (field === "name") {
+            const [surname, name, patronymic] = value.split(' ');
+            setFormState({
+                ...formState,
+                surname: surname || '',
+                name: name || '',
+                patronymic: patronymic || ''
+            });
+        } else {
+            setFormState({
+                ...formState,
+                [field]: value
+            });
+        }
     }
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        const athletes = await fetchAthletes()
+
+        const filterRows = athletes.filter((item: any) => {
+            // Проверка имени
+            if (formState.name && item.name.toLowerCase() !== formState.name.toLowerCase()) {
+                return false;
+            }
+
+            // Проверка фамилии
+            if (formState.surname && item.surname.toLowerCase() !== formState.surname.toLowerCase()) {
+                return false;
+            }
+
+            // Проверка отчества
+            if (formState.patronymic && item.patronymic.toLowerCase() !== formState.patronymic.toLowerCase()) {
+                return false;
+            }
+
+            // Проверка города
+            if (formState.town && item.city.toLowerCase() !== formState.town.toLowerCase()) {
+                return false;
+            }
+
+            // Проверка возраста
+            if (formState.ageFrom && item.age < Number(formState.ageFrom)) {
+                return false;
+            }
+
+            if (formState.ageTo && item.age > Number(formState.ageTo)) {
+                return false;
+            }
+
+            // Проверка рейтинга
+            if (formState.rateFrom && item.rate < Number(formState.rateFrom)) {
+                return false;
+            }
+
+            if (formState.rateTo && item.rate > Number(formState.rateTo)) {
+                return false;
+            }
+
+            return true;
+        });
+
+        setRows(filterRows);
+    };
 
 
     return (
@@ -103,13 +184,13 @@ export default function Container() {
                         <div className="w-[46%]">
                             <label aria-label="FIO">
                                 <p className="mb-2">ФИО</p>
-                                <Input type="text" className="w-full" classNames={InputWrapper} />
+                                <Input onChange={(e) => handleChange(e.target.value, "name")} type="text" className="w-full" classNames={InputWrapper} />
                             </label>
                         </div>
                         <div className="w-[46%]">
                             <label aria-label="Town">
                                 <p className="mb-2">Город</p>
-                                <Input type="text" className="w-full" classNames={InputWrapper} />
+                                <Input onChange={(e) => handleChange(e.target.value, "town")} type="text" className="w-full" classNames={InputWrapper} />
                             </label>
                         </div>
                     </div>
@@ -117,8 +198,8 @@ export default function Container() {
                         <h3>Возраст</h3>
                         <div className="w-full mt-2 justify-between flex">
                             <div className="w-[46%] flex">
-                                <Input type="number" className="w-full" label="от" labelPlacement="outside-left" classNames={InputWrapper} />
-                                <Input type="number" className="w-full ml-2" label="до" labelPlacement="outside-left" classNames={InputWrapper} />
+                                <Input type="number" onChange={(e) => handleChange(e.target.value, "ageFrom")} className="w-full" label="от" labelPlacement="outside-left" classNames={InputWrapper} />
+                                <Input type="number" onChange={(e) => handleChange(e.target.value, "ageTo")} className="w-full ml-2" label="до" labelPlacement="outside-left" classNames={InputWrapper} />
                             </div>
                             <div className="w-[46%] flex">
                                 <div className="mr-9">
@@ -133,8 +214,8 @@ export default function Container() {
                     <div className="w-full justify-between flex mt-4">
                         <div className="w-[46%]">
                             <label aria-label="Club">
-                                <p className="mb-2">Кветунь</p>
-                                <Input type="text" className="w-full" classNames={InputWrapper} />
+                                <p className="mb-2">Клуб</p>
+                                <Input type="text" className="w-full" onChange={(e) => handleChange(e.target.value, "clubName")} placeholder="Кветунь" classNames={InputWrapper} />
                             </label>
                         </div>
                         <div className="w-[46%]">
@@ -143,9 +224,10 @@ export default function Container() {
                                 <Select
                                     placeholder="Сабля"
                                     classNames={btnClass}
+                                    onSelectionChange={(value) => handleSelectionChange(value, 'winNomination')}
                                 >
                                     {nominationFilter.map((item) => (
-                                        <SelectItem key={item.id} value={item.nomination}>
+                                        <SelectItem key={item.nomination} value={item.id}>
                                             {item.nomination}
                                         </SelectItem>
                                     ))}
@@ -157,8 +239,8 @@ export default function Container() {
                         <h3>Личный рейтинг</h3>
                         <div className="w-full mt-2 justify-between flex">
                             <div className="w-[46%] flex">
-                                <Input type="number" className="w-full" label="от" labelPlacement="outside-left" classNames={InputWrapper} />
-                                <Input type="number" className="w-full ml-2" label="до" labelPlacement="outside-left" classNames={InputWrapper} />
+                                <Input onChange={(e) => handleChange(e.target.value, "rateFrom")} type="number" className="w-full" label="от" labelPlacement="outside-left" classNames={InputWrapper} />
+                                <Input onChange={(e) => handleChange(e.target.value, "rateTo")} type="number" className="w-full ml-2" label="до" labelPlacement="outside-left" classNames={InputWrapper} />
                             </div>
                         </div>
                     </div>
@@ -170,7 +252,7 @@ export default function Container() {
                     <TableAthletes cols={columns} rows={rows} onClickRow={handleOpenModal} />
                 </div>
             </div>
-            <AthletesModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} club={true}/>
+            <AthletesModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} club={true} />
         </>
     )
 }

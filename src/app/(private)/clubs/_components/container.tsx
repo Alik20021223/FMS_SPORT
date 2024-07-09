@@ -75,7 +75,7 @@ export default function Container() {
         };
 
         fetchData();
-    }, []);с
+    }, []);
 
     const columns = [
         {
@@ -140,15 +140,12 @@ export default function Container() {
     ]
 
     const handleSelectionChange = (value: any, nameValue: string) => {
-
         setFormState((prevState: any) => ({ ...prevState, [nameValue]: value.currentKey }));
     };
 
 
 
-    useEffect(() => {
-        console.log(formState)
-    }, [formState])
+
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -195,7 +192,6 @@ export default function Container() {
             return true;
         });
 
-        console.log(filterRows);
         setRows(filterRows);
     }
 
