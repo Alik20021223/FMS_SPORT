@@ -161,7 +161,7 @@ export default function Container() {
             // Проверка номинации
             if (formState.nomination) {
                 const hasNomination = item.nominations && Array.isArray(item.nominations) &&
-                    item.nominations.some(nomination => nomination.membersTitle === formState.nomination);
+                    item.nominations.some((nomination: any) => nomination.membersTitle === formState.nomination);
                 if (!hasNomination) {
                     return false;
                 }
@@ -170,7 +170,7 @@ export default function Container() {
             // Проверка лиги
             if (formState.league) {
                 const hasLeague = item.leagues && Array.isArray(item.leagues) &&
-                    item.leagues.some(league => league.name === formState.league);
+                    item.leagues.some((league: any) => league.name === formState.league);
                 if (!hasLeague) {
                     return false;
                 }
